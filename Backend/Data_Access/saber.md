@@ -1,0 +1,1 @@
+# En esta carpeta va la estructura de datos del proyecto

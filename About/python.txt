@@ -1,0 +1,124 @@
+
+inventario, validacion de q para un determ momento se puede o no hacer evento,
+la api debe hacer CRUD en eventos y recursos.
+
+crud: crear eventos, hacer update, listarlos (obtenerlos), borrarlos
+interfaz grafica :streamlit
+data base: json (para cada clase de evento, usuario y producto un json)
+
+
+
+🏥 Contexto clínico: planificación de citas oftalmológicas
+📅 Eventos = Citas médicas
+Cada evento representa una cita con un paciente. Ejemplos:
+
+Consulta con el oftalmólogo
+
+Examen de fondo de ojo
+
+Cirugía ambulatoria
+
+Pruebas diagnósticas (campimetría, OCT, etc.)
+
+🧰 Recursos = Equipos, salas, personal
+Los recursos pueden incluir:
+
+Equipos: tonómetro, lámpara de hendidura, autorefractómetro
+
+Salas: quirófano, sala de pruebas, consultorio
+
+Personal: oftalmólogos, técnicos, enfermeros
+
+🔄 Lógica de asignación y conflictos
+1. Intervalos de tiempo
+Cada cita tiene un inicio y fin
+
+Los recursos deben estar libres durante ese intervalo
+
+Se deben evitar solapamientos: dos citas no pueden usar el mismo recurso al mismo tiempo
+
+2. Disponibilidad dinámica
+Algunos recursos tienen cantidad limitada (por ejemplo, solo hay 1 OCT disponible)
+
+El sistema debe verificar que no se exceda la capacidad
+
+3. Reglas clínicas
+Ciertas pruebas requieren que el paciente haya pasado por otra previamente
+
+Algunos recursos solo están disponibles en ciertos horarios (ej. quirófano solo por la mañana)
+
+🖥️ Funcionalidades clave
+Agenda visual por médico, sala y equipo
+
+Motor de validación que impide agendar si hay conflicto
+
+Gestión de inventario clínico para recursos físicos
+
+Historial de citas y trazabilidad de uso de recursos
+
+Alertas inteligentes para evitar sobrecarga o duplicación
+
+🧪 Ejemplo práctico
+Paciente solicita una campimetría el martes a las 10:00. El sistema verifica:
+
+¿Está libre la sala de pruebas?
+
+¿Hay técnico disponible?
+
+¿Está libre el equipo de campimetría? Si todo está disponible, se agenda. Si no, se sugiere otro horario.
+
+
+
+
+✅ 1. Restricción de Co-requisito (Inclusión)
+Definición: Un recurso solo puede usarse si otro recurso complementario también está presente en el evento.
+
+Ejemplos clínicos:
+Campímetro requiere la sala de pruebas.
+
+Lámpara de hendidura requiere la presencia del oftalmólogo.
+
+Equipo de cirugía láser requiere el quirófano y un técnico especializado
+
+
+
+🚫 2. Restricción de Exclusión Mutua
+Definición: Si se usa un recurso de cierto tipo, está prohibido usar otro recurso incompatible en el mismo evento.
+
+Ejemplos clínicos:
+Si se usa el consultorio 1, no se puede usar el consultorio 2 en el mismo evento (porque son espacios físicos separados).
+
+Si se agenda una consulta presencial, no se puede usar el recurso videollamada (modalidades excluyentes).
+
+Si se usa el equipo de OCT, no se puede usar el equipo de retinografía en la misma cita (porque requieren tiempos y preparación distintos).
+
+
+
+Otros tipos de restricciones útiles
+🔄 3. Restricción de Secuencia (Dependencia temporal)
+Un evento solo puede ocurrir si otro evento ha ocurrido antes.
+
+Ejemplo: No se puede realizar una cirugía sin haber hecho una evaluación preoperatoria.
+
+Ejemplo: La inyección intravítrea requiere una consulta previa con diagnóstico confirmado.
+
+⏳ 4. Restricción de Disponibilidad Horaria
+Algunos recursos solo están disponibles en ciertos horarios o días.
+
+Ejemplo: El quirófano solo está disponible de lunes a viernes de 8:00 a 14:00.
+
+Ejemplo: El técnico de OCT solo trabaja martes y jueves.
+
+👥 5. Restricción de Capacidad
+Un recurso tiene un límite de uso simultáneo.
+
+Ejemplo: Solo hay 1 campímetro, por lo tanto, solo puede haber una prueba de campo visual a la vez.
+
+Ejemplo: La sala de espera tiene capacidad para 10 pacientes por hora.
+
+🧪 6. Restricción de Compatibilidad Clínica
+Ciertos recursos no deben combinarse por razones médicas.
+
+Ejemplo: No se puede realizar una dilatación pupilar y una campimetría en la misma cita (porque la dilatación afecta los resultados).
+
+Ejemplo: No se puede usar anestesia tópica junto con láser de retina sin supervisión médica.

@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "name": "Rocio Perez",
+        "especialidad": "oftalmologo_general",
+        "intelligence": 50,
+        "experience": 40 
+    },
+
+    {
+        "id": 2,
+        "name": "Mateo Ramirez",
+        "especialidad": "especialista_en_cornea",
+        "intelligence": 60,
+        "experience": 50
+    },
+
+    {
+        "id": 3,
+        "name": "Valentina Cruz",
+        "especialidad": "especialista_en_glaucoma",
+        "intelligence": 40,
+        "experience": 50
+    },
+
+    {
+        "id": 4,
+        "name": "Emma Parker",
+        "especialidad": "optometrista",
+        "intelligence": 30,
+        "experience": 30
+    },
+
+    {
+        "id": 5,
+        "name": "Julian Herrera",
+        "especialidad": "especialista_en_baja_vision",
+        "intelligence": 40,
+        "experience": 50
+    },
+
+    {
+        "id": 6,
+        "name": "Camila Rojas",
+        "especialidad": "comercial",
+        "intelligence": 20,
+        "experience": 40
+    },
+
+    {
+        "id": 7,
+        "name": "Esteve Wattson",
+        "especialidad": "medicina_interna",
+        "intelligence": 50,
+        "experience": 40
+    },
+
+     {
+        "id": 8,
+        "name": "Andrea Cassano",
+        "especialidad": "medicina_interna",
+        "intelligence": 50,
+        "experience": 60
+    }
+]

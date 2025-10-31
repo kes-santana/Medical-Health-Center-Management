@@ -1,0 +1,1 @@
+"""el usario pone el id de un evento y se pone en cancelado o en finalizado si esta activo"""

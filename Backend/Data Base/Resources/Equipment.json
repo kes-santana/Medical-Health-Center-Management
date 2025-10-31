@@ -1,0 +1,73 @@
+[
+    {
+        "id": 1,
+        "name": "lampara_de_endidura",
+        "cantidad": 2
+    },
+
+    {
+        "id": 2,
+        "name": "oftalmoscopio",
+        "cantidad": 2
+    },
+
+    {
+        "id": 3,
+        "name": "topografo",
+        "cantidad": 1
+    },
+
+    {
+        "id": 4,
+        "name": "microscopio_confoscan",
+        "cantidad": 1
+    },
+    
+    {
+        "id": 5,
+        "name": "gonioscopio",
+        "cantidad": 1
+    },
+
+    {
+        "id": 6,
+        "name": "oct",
+        "cantidad": 2
+    },
+    
+    {
+        "id": 7,
+        "name": "vf",
+        "cantidad": 1
+    },
+    
+    {
+        "id": 8,
+        "name": "caja_de_lentes_de_prueba",
+        "cantidad": 1
+    },
+    
+    {
+        "id": 9,
+        "name": "cartilla_de_agudeza",
+        "cantidad": 2
+    },
+    
+    {
+        "id": 10,
+        "name": "autorrefractor",
+        "cantidad": 1
+    },
+    
+    {
+        "id": 11,
+        "name": "Videolupa",
+        "cantidad": 2
+    },
+    
+    {
+        "id": 12,
+        "name": "telescopio_portatil",
+        "cantidad": 2
+    }
+]

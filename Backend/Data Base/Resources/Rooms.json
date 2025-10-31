@@ -1,0 +1,42 @@
+[
+    {
+        "id": "room_1",
+        "name": "oftalmologia general"
+    },
+
+    {
+        "id": "room_2",
+        "name": "area de cornea"
+    },
+    
+    {
+        "id": "room_3",
+        "name": "area de glaucoma"
+    },
+    
+    {
+        "id": "room_4",
+        "name": "optometria"
+    },
+    
+    {
+        "id": "room_5",
+        "name": "area de baja vision"
+    },
+    
+    {
+        "id": "room_6",
+        "name": "area de ventas"
+    },
+
+    {
+        "id": "room_7",
+        "name": "salon_1"
+    },
+    
+    {
+        "id": "room_8",
+        "name": "salon_2"
+    }
+    
+]

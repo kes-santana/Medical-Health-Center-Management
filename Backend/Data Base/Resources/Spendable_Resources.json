@@ -1,0 +1,46 @@
+[
+{
+    "id":1,
+    "name": "colirios anestesicos"
+},
+
+{
+    "id":2,
+    "name": "recetas medicas"
+},
+
+{
+    "id":3,
+    "name": "midriaticos"
+},
+
+{
+    "id":4,
+    "name": "lagrimas artificiales"
+},
+
+{
+    "id":5,
+    "name": "lentes blandos terapeuticos"
+},
+
+{
+    "id":6,
+    "name": "hipotensores oculares"
+},
+
+{
+    "id":7,
+    "name": "filtros opticos"
+},
+
+{
+    "id":8,
+    "name": "lupas"
+},
+
+{
+    "id":9,
+    "name": "espejuelos"
+}
+]
