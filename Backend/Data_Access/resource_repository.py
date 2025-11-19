@@ -1,6 +1,7 @@
-class Repository:
-    def __init__(self):
-        pass
+class ResourceRepository:
+    def __init__(self, items: list):
+        self.items : list = items
+        self.count: int = len(items)
 
     def get_all(self):
         # Devuelve, una lista, con todos los elementos de la Base de Datos
@@ -10,7 +11,7 @@ class Repository:
         # Esta claro lo que hace
         pass
 
-    def save(self):
+    def save(self, item):
         # Escribe en Base de Datos
         pass
 

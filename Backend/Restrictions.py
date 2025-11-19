@@ -1,4 +1,7 @@
-from Domain import resources
+
+from Backend.Domain import resources
+
+
 class Restricctions:
 
     def __init__(self):

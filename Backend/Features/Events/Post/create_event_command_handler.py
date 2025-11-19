@@ -1,164 +1,190 @@
-"""aqui se deside si se puede o no"""
+"""aqui se decide si se puede o no"""
 #   TODO aqui es donde van las restricciones
 
 import datetime
 import holidays
-import calendar
 
 from Backend.Data_Access.context import Context
-from Backend.Data_Access.repository import Repository
-from Domain.medical_date import MedicalDate
-from Domain.resources import Resource
-from Domain.resources import Employee
-from Data_Access.date_manager import Cronograma
+from Backend.Data_Access.date_manager import DateManager
+from Backend.Domain.medical_date import MedicalDate
+from Backend.Domain.resources import Employee, Resource
+from Backend.Features.Events.Post.create_event_command import CreateEventComand
+from Backend.Features.Events.Post.create_event_response import CreateEventResponse
 from constants import Events
-from create_event_command import CreateEventComand
-from create_event_response import CreateEventResponse
+
 
 
 class CreateEventHandler:
-    def __init__(self, comand: CreateEventComand, manager: Cronograma, actual_id: int, open_hour: datetime.datetime.time,
-                 close_hour: datetime.datetime.time):
+    def __init__(self, comand: CreateEventComand, open_hour: str,
+                 close_hour: str):
         
         self.command = comand
-        self.manager = manager
-        self.actual_id = actual_id
-        self.open_hour = open_hour
-        self.close_hour = close_hour
+        self.open_hour = datetime.datetime.strptime(open_hour, "%H:%M").time()
+        self.close_hour = datetime.datetime.strptime(close_hour, "%H:%M").time()
 
     actual_datetime = datetime.datetime.now()
     actual_date = actual_datetime.date() 
     actual_time =  actual_datetime.time().replace(second=0, microsecond=0)
     
-    def execute(self) -> CreateEventResponse: #TODO: terminar
+    def execute(self) -> CreateEventResponse: #TODO: terminar y revisar
+       
         print("Creating event")
-        repo: Repository = Context.get_repo(Events)
+        manager: DateManager = Context.get_repo(Events)
+
+        event: MedicalDate = self.create_appointment(manager, self.command.date,
+                        self.command.owns_name, self.command.employee, 
+                        self.command.is_urgency, self.command.necesary_resources)
         
-        evn = MedicalDate() # Informacion pasada en el command
+        manager.actual_id += 1
+        manager.save(event, self.actual_time)  #todo como el manager guarda el actual id? 
+        print("Event created")
+        
+        # TODO: Devolver un objeto de tipo response con la info del evento
         return CreateEventResponse()
 
+    def create_appointment(self, manager: DateManager, 
+                           appointment_date: str, owns_name: str, employee: str, is_urgency: bool,
+                           necesary_resources: list[str]) -> MedicalDate:
+        
+            # todo crear el empleado por su nombre
+        
+            appointment_date, appointment_hour = self.is_valid_date(manager, appointment_date, employee)
+            
+            self.employee_disponibility(employee, appointment_date)
+        
+            # todo crear los recursos por su nombre y agg a la lista (la lista debe llamarse igual)
+            self.validate_necesary_resources(necesary_resources)
 
-# -------------------------------------------------
-    # todo si la fecha se pasa en el comand como pongo el parametro de fecha -- lo quito?
-    # todo ver si esta bien
-    def add_appointment(self, appointment_date: str, owns_name: str, employee: Employee,
-                        type_classification: str, necesary_resources: list[Resource]) -> MedicalDate:
-        
-        try:
-            appointment_date, appointment_time = self.is_valid_date(appointment_date)
+            # TODO ver si hay q agg mas cosas
+            return MedicalDate(manager.actual_id, appointment_date, appointment_hour, self.actual_time,
+                               owns_name, employee, is_urgency, necesary_resources) 
+  
+    def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> None:
+        if employee.on_vacations and employee.vacations[0] < appointment_date < employee.vacations[1]:
+            raise Exception("Empleado no disponible")
 
-            if not self.employee_disponibility(employee, appointment_date):
-                raise Exception("Empleado no disponible")  #todo verificar si esta bien asi
-        
-            resources_valid_to_use = self.validate_necesary_resources(necesary_resources)
-        
-            if not resources_valid_to_use:      #todo verificar si esta bien
-                raise Exception("No es posible crear la cita por restricciones entre recursos")  
-        
-        except (EmployeeUnavailableError, ResourceConflictError) as e:
-            print(f"Error al crear la cita: {e}")
-        
-        else:
-            # TODO
-            new_appointment=MedicalDate(self.actual_id,appointment_date,appointment_time,owns_name,employee,type_classification,necesary_resources)
-            self.actual_id+=1 # todo esto se hace desde otro lugar despues de creado el evento 
-        
-        
-        # on_vacations =0
-        # vacations=0
+    def validate_necesary_resources(self, necesary_resources: list[Resource]) -> None:
+        for resource in necesary_resources:
+            for use_with in resource.use_with:
+                if not any(x.name == use_with.name for x in necesary_resources):
+                    raise Exception(f'El recurso "{resource}" nesecita usarse con el recurso "{use_with}" y este ultimo no esta en la lista de recursos')
+            
+            for dont_use_with in resource.dont_use_with:
+                if any(x.name == dont_use_with for x in necesary_resources):
+                    raise Exception(f'El recurso "{resource}" no puede usarse con el recurso "{dont_use_with}" y este ultimo esta en la lista de recursos')
     
-    # TODO: terminar
-    def is_valid_date(self, appointment_date: str) -> tuple[datetime.date, datetime.time]:
+    def is_valid_date(self, manager: DateManager, appointment_date: str, employee: Employee) -> tuple[datetime.date, datetime.time]:
      
-        try:
-            appointment_date: datetime.date = datetime.datetime.strptime(appointment_date,"%Y/%b/%d").date()
-            # appointment_time: datetime.time = datetime.datetime.strptime(appointment_time, "%H:%M").time()
-        except Exception():  #todo revisar si esta bien asi
-            pass
-
-        valid_day, day_message = self.is_valid_day(appointment_date)
-        if not valid_day:
-            raise Exception(day_message)    #todo revisar si esta bien asi
-        
-        # try:
-        #     pass
-        # finally:
-        #     pass
-
-        appointment_hour, valid_hour, hour_message = self.is_valid_time(appointment_date)
-        if not valid_hour:
-            raise Exception(hour_message)   #todo revisar si esta bien asi
-
+        appointment_date: datetime.date = self.is_valid_day(appointment_date)
+        appointment_hour = self.is_on_time(manager, appointment_date, employee)
         return (appointment_date, appointment_hour)
     
-    def is_valid_day(self, day: datetime.date) -> tuple[bool,str]:
-        
-        is_valid = True
-        message = ""
+    def is_valid_day(self, day: str) -> datetime.date:
+        try:
+            appointment_date: datetime.date = datetime.datetime.strptime(appointment_date,"%Y/%b/%d").date()         
+        except Exception():
+            raise Exception("Dia no valido")
+        else:
+            if appointment_date.weekday() in [5, 6] or appointment_date in holidays.CountryHoliday("US", appointment_date.year):
+                # 5 o 6 == saturday or sunday
+                is_valid = False
+                raise Exception("Dia no laborable")
+            
+            if day < self.actual_date:
+                is_valid = False
+                raise Exception("No puede agendar cita en una fecha pasada") 
+            
+            return appointment_date
 
-        if day.weekday() in [5, 6] or day in holidays.CountryHoliday("US", day.year):\
-            # 5 o 6 == saturday or sunday
-            is_valid = False
-            message = "Dia no laborable"
-            return (is_valid, message)
-        
-        if day < self.actual_date:
-            is_valid = False
-            message = "No puede agendar cita en una fecha pasada"
-            return (is_valid, message)
+    # todo: revisar con calma de aqui para abajo
+    def is_on_time(self, manager: DateManager, day: datetime.date, event_employee: Employee) -> datetime.time:
 
-        return (is_valid, "Dia valido") 
-    def is_valid_time(self,day: datetime.date) -> tuple[datetime.time, bool, str]:
-
-        appointment_time = datetime.time(0,0)
-        is_valid = True
-        message = ""
-        event_employee = self.command.employee
-        b= list()
+        appointment_time = self.open_hour
         
         # si el dia esta en el dict
-        if day in self.manager.list_of_events:      
-            day_events: dict[str: list[MedicalDate]] = self.manager.list_of_events[day]
-            employee_events: list[MedicalDate] = day_events[event_employee.name]
-            if len(employee_events) != 0:
-                # el doctor ya tiene pacientes
-                last_appointment = employee_events[len(employee_events)-1]
-                appointment_time = last_appointment.time + last_appointment.duration    
-           
-            # el doctor no tiene pacientes 
-            else: appointment_time = self.open_hour   
-        
-        # el dia no esta en el dict por tanto el doct no tiene pacienetes
-        else : appointment_time = self.open_hour   
-        
-        # la hora pasa de la hora del cierre, se contempla si es una urgencia
-        if (appointment_time > self.close_hour or appointment_time + event_employee.productivity() >
-            self.close_hour) and not self.command.urgency:
-
-            is_valid = False
-            message = "No hay capasidad en este dia"
-            return (appointment_time, is_valid, message)
+        if day in manager.list_of_events:      
+            day_events: dict[str: list[MedicalDate]] = manager.list_of_events[day]
             
-        # es el dia actual pero la hora ya paso
-        if day == self.actual_date:
-            if appointment_time < self.actual_time:
-                    is_valid = False
-                    message = "No puede agendar cita en una hora pasada"
-                    return (appointment_time, is_valid, message)
+            # si el doc esta en el dict
+            if event_employee.name in day_events:
+                employee_events: list[MedicalDate] = day_events[event_employee.name]
+               
+                # el doctor esta entonces ya tiene pacientes
+                last_event = self.find_last_event(employee_events)
+                
+                #  si hay algun paciente activo
+                if last_event is not None:
+                    last_event_concluyed: datetime.time = last_event.time + last_event.duration
+                    
+                    if last_event_concluyed >= self.close_hour:
+                        raise Exception("No hay capacidad en este dia")
+                
+                    # si es el dia actual la hora del event es el max entre la hora actual y la hora 
+                    # en que finaliza el evento anterior
+                    if day == self.actual_date:
+                        if not self.command.is_urgency:
+                            appointment_time = max(self.actual_time, last_event_concluyed)
+                        else:
+                            appointment_time = self.find_hour_for_urgency_actual_date(employee_events, self.actual_time)
+                
+                    # no es el dia actual
+                    else:
+                        if not self.command.is_urgency:
+                            appointment_time = last_event_concluyed
+                        else:      
+                            appointment_time = self.find_best_hour_for_urgency(employee_events)          
+                else: # el doc no tiene pacientes (tiene pero no estan activos)
+                    if day == self.actual_date: 
+                        appointment_time = self.actual_time
+                    
+            # si el doc no esta en el dict no tiene pasientes
+            else: 
+                # si es el dia actual entonces la hora es la actual sino es el primer 
+                # paciente (no hay q hacer nada pues esta seteado arriba)
+                if day == self.actual_date: 
+                    appointment_time = self.actual_time
+                         
+        # el dia no esta en el dict por tanto el doct no tiene pacienetes  
+        else:
+            # si es el dia actual la hora es la actual sino es la de apertura (ya esta puesto arriba)
+            if day == self.actual_date: 
+                    appointment_time = self.actual_time
+
+        # la hora pasa de la hora del cierre
+        if appointment_time >= self.close_hour:
+            raise Exception("No hay capacidad en este dia")
+            
+        return appointment_time
+
+    # asumimos q la lista esta organizada, que los finalizados y cancelados esten para atras 
+    # y que el evento es una urgencia; las urgencias siempre estan alante
+    def find_best_hour_for_urgency(self, employee_events: list[MedicalDate]) -> datetime.time:
+        best = self.open_hour 
+        for event in employee_events:
+            if event.state == "finished" or  event.state == "canceled" or not event.is_urgency:
+                return best
+            else:
+                best = event.time + event.duration   
+        return best
+ 
+    def find_hour_for_urgency_actual_date(self, employee_events: list[MedicalDate], after_time: datetime.time) -> datetime.time: 
+        best = None
+        for event in employee_events:
+            if event.state == "finished" or  event.state == "canceled":
+                if best == None:
+                    return after_time
+                return best
+            if event.time < after_time:
+                best = event.time + event.duration
+            else:
+                break
+
+        return max(best, after_time)
+    
+    def find_last_event(self, employee_events: list[MedicalDate]):
+        last = None      
+        for event in employee_events:
+            if event.state == "finished" or event.state == "canceled":
+               return last
+            last = event
         
-        return(appointment_time, is_valid,"Hora valida")
-
-    def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> bool:
-        if employee.on_vacations and employee.vacations[0] < appointment_date < employee.vacations[1]:
-            return False
-        return True
-
-# TODO: agg el sistem de poner las urgencias delante de la cola y las demas correrlas
-
-    def validate_necesary_resources(self, necesary_resources: list[Resource]) -> bool:
-        pass 
-
-
-# TODO: Validar las restricciones de recursos
-# TODO: Guardar en Base de datos el evento creado
-# TODO: Devolver un objeto de tipo response con la info del evento

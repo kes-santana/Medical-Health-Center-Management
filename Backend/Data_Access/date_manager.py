@@ -1,96 +1,162 @@
 import datetime
 
-from Domain.medical_date import *
+# from Backend.Data_Access.context import Context
+from Backend.Domain.medical_date import MedicalDate
+from constants import Events
 
-# TODO: ver pq no funciona el import
 
 
-class Cronograma:
+class DateManager:
     """Representa la clase Cronograma"""
     
-    def __init__(self, list_of_events: dict[(datetime.date): dict[str: list[MedicalDate]]]={}):
+    def __init__(self, list_of_events: dict[(datetime.date): dict[str: list[MedicalDate]]]={},
+                 actual_id: int=0):
         """Inicializa la clase Cronograma"""
         self.list_of_events : dict[(datetime.date): dict[str: list[MedicalDate]]]  = list_of_events
-       
-    # todo ver que hacer co esto a futuro
-    actual_datetime: datetime.datetime = datetime.datetime.now()
-    actual_date: datetime.date = actual_datetime.date() 
-    actual_time: datetime.time =  actual_datetime.time().replace(second=0, microsecond=0)
+        self.actual_id : int = actual_id
+
     
+    def get_all(self) -> list[MedicalDate]:
+        events: list[MedicalDate] = []
+        for date in self.list_of_events.values:
+            for doctor_dates in date.values:
+                events.extend(doctor_dates)     #todo revisar si esto funciona
+        return events
+
+    def get_by_id(self, id: int):
+        events = self.get_all()
+        event_finded = None
+        for event in events:
+            if event.id == id:
+                event_finded = event
+        return event_finded
+        
+    #TODO revisar (creo q no hacen falta los params)
+    def save(self, event: MedicalDate, created_at: datetime.time):     
+        # Escribe en Base de Datos
+        # Context.save_repo(Events, self.list_of_events)
+
+        # TODO meter en otro metodo (va en en handle)
+        if event.date in self.list_of_events:
+            day_events: dict[str, list[MedicalDate]] = self.list_of_events[event.date]
+            if event.employee.name in day_events:
+                day_events[event.employee.name].append(event)
+                employee_events = day_events[event.employee.name]
+
+                if event.is_urgency:
+                    self.order_by_urgency(employee_events,created_at)
+
+            else: 
+                day_events[event.employee.name] = [event]
+                return
+        
+        else:
+            self.list_of_events[event.date] = {event.employee.name: [event]}
+            return
+
+           
+    # si se agg una urgencia y hay que organizar #TODO move to handle
+    def order_by_urgency(self, employee_events: list[MedicalDate], created_at: datetime.time) -> None:
+        event = employee_events.pop()
+        index = self.find_index(employee_events, created_at)
     
-# todo meter todo lo que es de validacion en otro script--- listo
-    # def add_appointment(self, appointment_date: str, appointment_time: str, owns_name: str, employee: Employee,
-    #                     type_classification: str, necesary_resources: list[Resource]) -> MedicalDate:
-        
-    #     appointment_date, appointment_time = self.is_vald_date(appointment_date, appointment_time)
+    def find_index(self, employee_events: list[MedicalDate], created_at: datetime.time) -> int:
+        for index in range(len(employee_events)):
+            
+            if employee_events[index].time < created_at:
+                continue
 
-    #     employee_disponibility = self.employee_disponibility(employee, appointment_date)
-    #     if not employee_disponibility:
-    #         print("Empleado no disponible")
-    #         return #todo lanzar err
-
-    #     date_is_full = self.date_is_full(appointment_date, appointment_time)
-
-    #     if date_is_full and type_classification.lower() != "urgency":
-    #         print("No es posible crear la cita por restricciones entre recursos")
-    #         return #todo lanzar err
+            elif employee_events[index].time == created_at:
+                if employee_events[index].is_urgency:
+                    continue
+                return index
+           
+            else: return index
+        return len(employee_events)   
     
-    #     resources_valid_to_use = self.validate_necesary_resources(necesary_resources)
-       
-    #     if not resources_valid_to_use:
-    #         print("No es posible crear la cita por restricciones entre recursos")
-    #         return #todo lanzar err
         
 
+    def change_state(self, id: int, state: str): #todo terminar el save y ponerle los params a la ultima linea
+        event = self.get_by_id(id)
+        event.state = state
+        employee_events: list[MedicalDate] = self.list_of_events[event.date][event.employee.name]
+        if state == "finished":
+            self.order_by_finished(id, employee_events)
+        else: self.order_by_canceled
+        self.save()
+    
 
-    #     # TODO
-    #     new_appointment=MedicalDate(self.actual_id,appointment_date,appointment_time,owns_name,employee,type_classification,necesary_resources)
-    #     self.actual_id+=1
-
-        
-    #     # on_vacations =0
-    #     # vacations=0
-    # def is_vald_date(self, appointment_date: str, appointment_time: str) -> tuple[datetime.date, datetime.time]:
-     
-    #     #todo hacer un try por si la fecha no es valida
-        
-    #     appointment_date: datetime.date = datetime.datetime.strptime(appointment_date,"%Y/%b/%d").date()
-    #     appointment_time: datetime.time = datetime.datetime.strptime(appointment_time, "%H:%M").time()
-        
-    #     if appointment_date.weekday() in [5, 6] or appointment_date in holidays.CountryHoliday("US", appointment_date.year):
-    #         print("Dia no laborable") #todo lanzar err
-    #         return
-        
-    #     if appointment_time < self.open_hour or appointment_time > self.close_hour:
-    #         print("Hora fuera de rango") #todo lanzar err
-    #         return
-        
-    #     if appointment_date >= self.actual_date:
-    #         if appointment_date > self.actual_date:
-    #             return (appointment_date, appointment_time)
-
-    #         else: 
-    #             if appointment_time >= self.actual_time:
-    #                return (appointment_date, appointment_time)
-    #             else:
-    #                 print("No puede agendar cita en una hora pasada") #todo lanzar err
-    #                 return
-
-    #     else:
-    #         print("No puede agendar cita en una fecha pasada") #todo lanzar err
-    #         return
-    # def date_is_full(self, appointment_date: datetime.date, appointment_time: datetime.time) -> bool:
-    #     pass
-    # def validate_necesary_resources(self, necesary_resources: list[Resource]) -> bool:
-    #     pass #todo ver si poner lo en la class restriction y q esa clase maneje todas las restricciones
-    # def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> bool:
-    #     pass #todo ver si poner lo en la class restriction y q esa clase maneje todas las restricciones
+    def order_by_finished(self, event_finished_id: int, employee_events: list[MedicalDate]):
+        index = self.find_index2(employee_events, event_finished_id)
+        event = employee_events.pop(index)
+        new_index = self.find_last_event_finished(employee_events)
+        # si no encuentro cancelados lo pongo de ultimo
+        if new_index == len(employee_events):
+            employee_events.append(event)
+        else: employee_events.insert(new_index, event)
+    def find_last_event_finished(self, employee_events: list[MedicalDate]) -> int:     
+        for index in range(len(employee_events)):
+            if employee_events[index].state == "canceled":
+               return index
+        return len(employee_events)
+    def order_by_canceled(self, event_canceled_id: int, employee_events: list[MedicalDate]):
+        index = self.find_index2(employee_events, event_canceled_id)
+        event = employee_events.pop(index)
+        employee_events.append(event)
+    def find_index2(self, employee_events: list[MedicalDate], event_finished_id: int) -> int:
+        for index in range(len(employee_events)):
+            if employee_events[index].id == event_finished_id:
+                return index
+        return None
+   
 
 
 
 
-a= datetime.time(0,0)
-print(a)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# a= datetime.time(0,0)
+# print(a)
 
 
 

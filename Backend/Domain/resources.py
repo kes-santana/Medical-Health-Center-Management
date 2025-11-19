@@ -11,7 +11,18 @@ class Resource:
         self.name: str = name
         self.use_with: list["Resource"] = use_with
         self.dont_use_with: list["Resource"] = dont_use_with
-        self.use_state: bool = True     #todo todavia no lo uso
+        self.use_state: str = "active"   #todo todavia no lo uso
+    
+    def to_dict(self) -> dict:
+        """Convierte el recurso a un diccionario"""
+
+        return {
+            "id": self.id,
+            "name": self.name,
+            "use_with": [resource.id for resource in self.use_with],
+            "dont_use_with": [resource.id for resource in self.dont_use_with],
+            "use_state": self.use_state
+        }
 
 class Equipment(Resource):
     """Representa los equipos medicos"""
@@ -19,6 +30,7 @@ class Equipment(Resource):
     def __init__(self, id: int, name: str):
         """Inicializa la clase Equipment"""
         super().__init__(id, name) 
+    
 
 class Employee():
     """Representa los empleados"""
@@ -46,6 +58,18 @@ class Employee():
       
         else: return datetime.time(minute=30)
     
+    def to_dict(self) -> dict:
+        """Convierte el empleado a un diccionario"""
+
+        return {
+            "id": self.id,
+            "name": self.name,
+            "especiality": self.especiality,
+            "experience": self.experience,
+            "on_vacations": self.on_vacations,
+            "vacations": [date.isoformat() for date in self.vacations] if self.vacations else None
+        }
+    
 class Doctor(Employee):
     """Representa los doctores"""
 
@@ -55,3 +79,11 @@ class Doctor(Employee):
         super().__init__(id, name, especiality, is_doctor=True)
         self.experience: dict[str: int] = experience
         # self.intelligence = intelligence
+        
+    def to_dict(self) -> dict:
+        s = super().to_dict()
+        s.update({
+            "experience": self.experience,
+            # "intelligence": self.intelligence
+        })
+        return s

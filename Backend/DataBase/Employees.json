@@ -4,7 +4,7 @@
         "name": "Rocio Perez",
         "especialidad": "oftalmologo_general",
         "intelligence": 50,
-        "experience": 40 
+        "experience": {"Carlo": 5, "Juana": 10}
     },
 
     {

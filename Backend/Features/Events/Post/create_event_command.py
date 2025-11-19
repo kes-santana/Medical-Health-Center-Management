@@ -1,20 +1,14 @@
 """aqui esta lo q se recibe del front"""
 
-import datetime
-
-from Domain.resources import Resource, Employee
-
 class CreateEventComand:
-   def __init__(self, date: datetime.date, owns_name: str,
-                employee: Employee, urgency: bool, necesary_resources: list[Resource], 
+   def __init__(self, date: str, owns_name: str,
+                employee_name: str, is_urgency: bool, necesary_resources: list[str], 
                 appointment_name: str =None):
         """Inicializa la clase CreateEventComand"""
 
-        self.date = date
+        self.date: str = date
         # self.appointment_name = appointment_name        #todo ver q hacer con esto a futuro
-        self.owns_name = owns_name
-        self.employee = employee
-        self.especiality = employee.especiality
-        self.urgency = urgency
-        self.duration = employee.productivity()  #todo ver si hay que ponerlo aquí 
-        self.necesary_resources = necesary_resources        #todo ver si aquí CreateEventComand hay que poner los recursos necesarios?
+        self.owns_name: str = owns_name
+        self.employee: str = employee_name
+        self.is_urgency: bool = is_urgency
+        self.necesary_resources: list[str] = necesary_resources        #todo ver si aquí CreateEventComand hay que poner los recursos necesarios? 
