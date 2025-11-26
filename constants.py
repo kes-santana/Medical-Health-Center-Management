@@ -1,9 +1,11 @@
-# Simular un enum
-Events = "Events"
-Employees = "Employees"
-Equipment = "Equipment"
-Rooms = "Rooms"
-Spendable = "Spendable_Resources"
+from datetime import datetime
 
-OpenHour = "09:00"
-CloseHour = "18:00"
+# Simular un enum
+EVENTS = "Events"
+EMPLOYEES = "Employees"
+EQUIPMENT = "Equipment"
+SPENDABLE = "Spendable_Resources"
+
+OPEN_HOUR = datetime.strptime("09:00", "%H:%M").time()
+CLOSE_HOUR = datetime.strptime("18:00", "%H:%M").time()
+MID_DAY = datetime.strptime("12:00", "%H:%M").time()

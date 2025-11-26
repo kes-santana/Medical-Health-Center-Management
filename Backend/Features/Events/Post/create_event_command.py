@@ -1,14 +1,17 @@
 """aqui esta lo q se recibe del front"""
 
-class CreateEventComand:
-   def __init__(self, date: str, owns_name: str,
-                employee_name: str, is_urgency: bool, necesary_resources: list[str], 
-                appointment_name: str =None):
+class CreateEventCommand:
+   def __init__(self, date: str, time: str, owns_name: str,
+                employee_id: str, is_urgency: bool, necesary_resources: list[str], 
+                asigned_date_time_auto: bool,
+                appointment_name: str):
         """Inicializa la clase CreateEventComand"""
 
         self.date: str = date
-        # self.appointment_name = appointment_name        #todo ver q hacer con esto a futuro
+        self.time: str = time
+        self.asigned_date_time_auto: bool = asigned_date_time_auto
+        self.appointment_name = appointment_name
         self.owns_name: str = owns_name
-        self.employee: str = employee_name
+        self.employee: str = employee_id
         self.is_urgency: bool = is_urgency
-        self.necesary_resources: list[str] = necesary_resources        #todo ver si aquí CreateEventComand hay que poner los recursos necesarios? 
+        self.necesary_resources: list[str] = necesary_resources

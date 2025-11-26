@@ -1,46 +1,46 @@
-[
 {
-    "id":1,
-    "name": "colirios anestesicos"
-},
+    "1":{
+            "id":1,
+            "name": "colirios anestesicos"
+        },
 
-{
-    "id":2,
-    "name": "recetas medicas"
-},
+    "2":{
+            "id":2,
+            "name": "recetas medicas"
+        },
 
-{
-    "id":3,
-    "name": "midriaticos"
-},
+    "3":{
+            "id":3,
+            "name": "midriaticos"
+        },
 
-{
-    "id":4,
-    "name": "lagrimas artificiales"
-},
+    "4":{
+            "id":4,
+            "name": "lagrimas artificiales"
+        },
 
-{
-    "id":5,
-    "name": "lentes blandos terapeuticos"
-},
+    "5":{
+            "id":5,
+            "name": "lentes blandos terapeuticos"
+        },
 
-{
-    "id":6,
-    "name": "hipotensores oculares"
-},
+    "6":{
+            "id":6,
+            "name": "hipotensores oculares"
+        },
 
-{
-    "id":7,
-    "name": "filtros opticos"
-},
+    "7":{
+            "id":7,
+            "name": "filtros opticos"
+        },
 
-{
-    "id":8,
-    "name": "lupas"
-},
+    "8":{
+            "id":8,
+            "name": "lupas"
+        },
 
-{
-    "id":9,
-    "name": "espejuelos"
+    "9":{
+            "id":9,
+            "name": "espejuelos"
+        }
 }
-]

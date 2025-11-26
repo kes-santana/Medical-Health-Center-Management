@@ -1,8 +1,8 @@
-import datetime
+from datetime import datetime
+import json
 
-# from Backend.Data_Access.context import Context
 from Backend.Domain.medical_date import MedicalDate
-from constants import Events
+from constants import EVENTS
 
 
 
@@ -10,7 +10,7 @@ class DateManager:
     """Representa la clase Cronograma"""
     
     def __init__(self, list_of_events: dict[(datetime.date): dict[str: list[MedicalDate]]]={},
-                 actual_id: int=0):
+                 actual_id: int=1):
         """Inicializa la clase Cronograma"""
         self.list_of_events : dict[(datetime.date): dict[str: list[MedicalDate]]]  = list_of_events
         self.actual_id : int = actual_id
@@ -31,14 +31,20 @@ class DateManager:
                 event_finded = event
         return event_finded
         
+    def change_state(self, id: int, state: str): #todo terminar el save y ponerle los params a la ultima linea
+        event = self.get_by_id(id)
+        event.state = state
+        self.save()
+ 
+    #TODO que hace el save
     #TODO revisar (creo q no hacen falta los params)
     def save(self, event: MedicalDate, created_at: datetime.time):     
         # Escribe en Base de Datos
         # Context.save_repo(Events, self.list_of_events)
 
         # TODO meter en otro metodo (va en en handle)
-        if event.date in self.list_of_events:
-            day_events: dict[str, list[MedicalDate]] = self.list_of_events[event.date]
+        if event.date_time in self.list_of_events:
+            day_events: dict[str, list[MedicalDate]] = self.list_of_events[event.date_time]
             if event.employee.name in day_events:
                 day_events[event.employee.name].append(event)
                 employee_events = day_events[event.employee.name]
@@ -54,12 +60,11 @@ class DateManager:
             self.list_of_events[event.date] = {event.employee.name: [event]}
             return
 
-           
+    # esto se usa en el save (que esta mal)  asi que seguro se borra
     # si se agg una urgencia y hay que organizar #TODO move to handle
     def order_by_urgency(self, employee_events: list[MedicalDate], created_at: datetime.time) -> None:
         event = employee_events.pop()
         index = self.find_index(employee_events, created_at)
-    
     def find_index(self, employee_events: list[MedicalDate], created_at: datetime.time) -> int:
         for index in range(len(employee_events)):
             
@@ -74,76 +79,41 @@ class DateManager:
             else: return index
         return len(employee_events)   
     
+           
+    @staticmethod
+    def from_dict(data: list) -> "DateManager":
+        # Cargar del JSON
+
+        actual_id= data[0]
+
+        # Reconstruir estructura
+        list_of_events: dict[datetime.date, dict[str, list[MedicalDate]]] = {}
+
+        for fecha_str, doctor in data[1].items():
+            fecha = datetime.strptime(fecha_str, "%Y-%m-%d").date()
+            eventos_por_doctor = {}
+
+            for doctor, eventos in doctor.items():
+                eventos_por_doctor[doctor] = [MedicalDate.from_dict(e) for e in eventos]
+
+            list_of_events[fecha] = eventos_por_doctor
         
+        return DateManager(list_of_events, actual_id)
 
-    def change_state(self, id: int, state: str): #todo terminar el save y ponerle los params a la ultima linea
-        event = self.get_by_id(id)
-        event.state = state
-        employee_events: list[MedicalDate] = self.list_of_events[event.date][event.employee.name]
-        if state == "finished":
-            self.order_by_finished(id, employee_events)
-        else: self.order_by_canceled
-        self.save()
-    
+    def to_dict(self): 
+    # Convertir a JSON serializable
+        json_ready = [self.actual_id,
+            {
+            fecha.isoformat(): {
+                doctor: [evento.to_dict() for evento in eventos]
+                for doctor, eventos in doctores.items()
+            }
+            for fecha, doctores in self.list_of_events.items()
+        }]
 
-    def order_by_finished(self, event_finished_id: int, employee_events: list[MedicalDate]):
-        index = self.find_index2(employee_events, event_finished_id)
-        event = employee_events.pop(index)
-        new_index = self.find_last_event_finished(employee_events)
-        # si no encuentro cancelados lo pongo de ultimo
-        if new_index == len(employee_events):
-            employee_events.append(event)
-        else: employee_events.insert(new_index, event)
-    def find_last_event_finished(self, employee_events: list[MedicalDate]) -> int:     
-        for index in range(len(employee_events)):
-            if employee_events[index].state == "canceled":
-               return index
-        return len(employee_events)
-    def order_by_canceled(self, event_canceled_id: int, employee_events: list[MedicalDate]):
-        index = self.find_index2(employee_events, event_canceled_id)
-        event = employee_events.pop(index)
-        employee_events.append(event)
-    def find_index2(self, employee_events: list[MedicalDate], event_finished_id: int) -> int:
-        for index in range(len(employee_events)):
-            if employee_events[index].id == event_finished_id:
-                return index
-        return None
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        # todo creo q va en context
+        with open("eventos.json", "w", encoding="utf-8") as f:
+            json.dump(json_ready, f, indent=2, ensure_ascii=False)
 
 
 

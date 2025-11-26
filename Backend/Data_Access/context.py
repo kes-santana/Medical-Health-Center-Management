@@ -2,44 +2,52 @@ import json
 import os
 
 from Backend.Data_Access.date_manager import DateManager
-from constants import Events
+from Backend.Data_Access.employee_repository import EmployeeRepository
+from Backend.Data_Access.resource_repository import ResourceRepository
+from constants import *
 
-
-
+# todo hacer el predicate de los filtred
+# todo donde va lo de escribir en json?
 # TODO: arreglar rutas y revisar metodos
 # PATH = "..\DataBase"
 
 class Context:
     def __init__(self):
         pass
-    # todo cuando desde otro scrpt le pasan un parametro se pasa el valor verdad?
-    @staticmethod
-    def get_repo(name_repo: str) -> DateManager:
+    
+    def _validate_json_size(self, name_repo: str):
         root = os.path.join(
             r"C:\Users\Kevin Emilio\Programación\Python\Projects\Medical-Health-Center-Management\Backend\DataBase",
             f"{name_repo}.json"
         )
-
-        # Verifica si el archivo está vacío
-        if os.path.getsize(root) == 0:
-            print("⚠️ El archivo JSON está vacío.")
-            return DateManager([], 0)  # o lo que tenga sentido como valor por defecto
-
+        return root, os.path.getsize(root) == 0
+    
+    def _validate_content(self, root: str) -> dict:
+        json_data = {} 
         with open(root, "r", encoding="utf-8") as archivo:
             try:
-                json_data: list = json.load(archivo)
+                json_data = json.load(archivo)
+                return json_data
             except json.JSONDecodeError:
-                print("⚠️ El contenido del JSON no es válido.")
-                return DateManager([], 0)
+                raise Exception("El contenido del JSON no es válido.")
 
-        if name_repo == Events:
-            data = json_data[0] if len(json_data) > 0 else []
-            actual_id = json_data[1] if len(json_data) > 1 else 0
-            return DateManager(data, actual_id)
-        
+    def get_repo_date_manager(self) -> DateManager:
+        root, size_equal_zero = self._validate_json_size(EVENTS)
+        if size_equal_zero:
+            return DateManager({}, 1)
+        json_data: list = self._validate_content(root)       
+        return DateManager.from_dict(json_data)
     
-    # @staticmethod
-    # def save_repo(repo: str, data: list):
-    #     with open(f"{PATH}{repo}.json", "w", encoding="utf-8") as f:
-    #         json.dump(data, f, indent=4, ensure_ascii=False)
+    def get_repo_resource(self) -> ResourceRepository:
+        root, size_equal_zero = self._validate_json_size(SPENDABLE)
+        if size_equal_zero:
+            return ResourceRepository({}, 1)
+        data = self._validate_content(root)
+        return ResourceRepository.from_dict(data)
     
+    def get_repo_employee(self) -> EmployeeRepository:
+        root, size_equal_zero = self._validate_json_size(EMPLOYEES)
+        if size_equal_zero:
+            return EmployeeRepository({}, 1)
+        json_data = self._validate_content(root)
+        return EmployeeRepository.from_dict(json_data)
