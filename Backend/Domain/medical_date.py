@@ -1,6 +1,9 @@
 import datetime
 
-from Backend.Domain.resources import Employee, Resource
+from Backend.Data_Access.employee_repository import EmployeeRepository
+from Backend.Data_Access.resource_repository import ResourceRepository
+from Backend.Domain.resources import Resource
+from Backend.Domain.employee import Employee
 
 
 
@@ -29,29 +32,33 @@ class MedicalDate:
             "id": self.id,
             "date_time": self.date_time.isoformat(),
             "owns_name": self.owns_name,
-            "employee": self.employee.to_dict(),
+            "employee": self.employee.id,
             # "especiality": self.especiality,
             "is_urgency": self.is_urgency,
             "duration": self.duration.isoformat(),
-            "necesary_resources": [resource.to_dict() for resource in self.necesary_resources],
+            "necesary_resources": [resource.id for resource in self.necesary_resources],
             "state": self.state,
             "appointment_name": self.appointment_name
         } 
 
     @staticmethod
-    def from_dict(data: dict) -> "MedicalDate":
+    def from_dict(data: dict, context) -> "MedicalDate":
+        resource_repo: ResourceRepository = context.get_repo_resource()
+        employee_repo: EmployeeRepository = context.get_repo_employee()
+
         # Convertir fechas
-        date_time = datetime.datetime.strptime(data["date_time"], "%Y-%m-%dT%H:%M")
+        date_time = datetime.datetime.strptime(data["date_time"], "%Y-%m-%dT%H:%M:%S")
         
         # Reconstruir objetos Employee y Resource
-        empleado = Employee.from_dict(data["employee"])
-        recursos = [Resource.from_dict(r) for r in data["necesary_resources"]] 
+        recursos =[resource_repo.get_by_id(r) for r in data["necesary_resources"]]
+
+        employee = employee_repo.get_by_id(data["employee"])
 
         return MedicalDate(
             id = data["id"],
             date_time = date_time,
             owns_name = data["owns_name"],
-            employee = empleado,
+            employee = employee,
             is_urgency = data["is_urgency"],
             necesary_resources = recursos,
             appointment_name = data["appointment_name"]

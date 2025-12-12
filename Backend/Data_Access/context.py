@@ -7,7 +7,7 @@ from Backend.Data_Access.resource_repository import ResourceRepository
 from constants import *
 
 # todo hacer el predicate de los filtred
-# todo donde va lo de escribir en json?
+
 # TODO: arreglar rutas y revisar metodos
 # PATH = "..\DataBase"
 
@@ -15,6 +15,19 @@ class Context:
     def __init__(self):
         pass
     
+    def save(self, repo):
+       data = repo.to_dict()
+       
+       if type(repo) ==  DateManager:
+           name_repo = EVENTS
+       elif type(repo) ==  EmployeeRepository:
+           name_repo = EMPLOYEES
+       else: name_repo = SPENDABLE
+           
+       root, _ = self._validate_json_size(name_repo)
+       with open(root, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
     def _validate_json_size(self, name_repo: str):
         root = os.path.join(
             r"C:\Users\Kevin Emilio\Programación\Python\Projects\Medical-Health-Center-Management\Backend\DataBase",
@@ -36,18 +49,18 @@ class Context:
         if size_equal_zero:
             return DateManager({}, 1)
         json_data: list = self._validate_content(root)       
-        return DateManager.from_dict(json_data)
+        return DateManager.from_dict(json_data, self)
     
     def get_repo_resource(self) -> ResourceRepository:
         root, size_equal_zero = self._validate_json_size(SPENDABLE)
         if size_equal_zero:
-            return ResourceRepository({}, 1)
+            return ResourceRepository({})
         data = self._validate_content(root)
         return ResourceRepository.from_dict(data)
     
     def get_repo_employee(self) -> EmployeeRepository:
         root, size_equal_zero = self._validate_json_size(EMPLOYEES)
         if size_equal_zero:
-            return EmployeeRepository({}, 1)
+            return EmployeeRepository({})
         json_data = self._validate_content(root)
         return EmployeeRepository.from_dict(json_data)

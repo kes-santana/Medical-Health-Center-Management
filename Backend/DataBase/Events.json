@@ -1,0 +1,167 @@
+[
+  15,
+  {
+    "2025-12-18": {
+      "1": [
+        {
+          "id": 1,
+          "date_time": "2025-12-18T16:00:00",
+          "owns_name": "Miguel",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 2,
+          "date_time": "2025-12-18T12:00:00",
+          "owns_name": "Miguel",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 3,
+          "date_time": "2025-12-18T11:00:00",
+          "owns_name": "Miguel",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 4,
+          "date_time": "2025-12-18T10:30:00",
+          "owns_name": "Miguel",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 5,
+          "date_time": "2025-12-18T09:00:00",
+          "owns_name": "Miguel",
+          "employee": 1,
+          "is_urgency": true,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 6,
+          "date_time": "2025-12-18T09:15:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": true,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 7,
+          "date_time": "2025-12-18T09:30:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": true,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 8,
+          "date_time": "2025-12-18T09:45:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": true,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 9,
+          "date_time": "2025-12-18T10:00:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": true,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 10,
+          "date_time": "2025-12-18T10:15:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": true,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 11,
+          "date_time": "2025-12-18T17:00:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 14,
+          "date_time": "2025-12-18T17:50:00",
+          "owns_name": "lale",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        }
+      ]
+    },
+    "2025-12-11": {
+      "1": [
+        {
+          "id": 12,
+          "date_time": "2025-12-11T09:00:00",
+          "owns_name": "Juan",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        },
+        {
+          "id": 13,
+          "date_time": "2025-12-11T09:15:00",
+          "owns_name": "lale",
+          "employee": 1,
+          "is_urgency": false,
+          "duration": "00:15:00",
+          "necesary_resources": [],
+          "state": "active",
+          "appointment_name": "Cirugia"
+        }
+      ]
+    }
+  }
+]

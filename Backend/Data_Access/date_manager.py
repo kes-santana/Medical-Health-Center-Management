@@ -1,8 +1,9 @@
 from datetime import datetime
-import json
 
+# from Backend.Data_Access.context import Context
 from Backend.Domain.medical_date import MedicalDate
-from constants import EVENTS
+
+
 
 
 
@@ -15,73 +16,52 @@ class DateManager:
         self.list_of_events : dict[(datetime.date): dict[str: list[MedicalDate]]]  = list_of_events
         self.actual_id : int = actual_id
 
-    
-    def get_all(self) -> list[MedicalDate]:
+    def add_event(self, date_time: datetime, doctor_id: str, evento: MedicalDate):
+        event_date: datetime.date= date_time.date()
+        if event_date in self.list_of_events.keys():
+            date_events: dict[str, list[MedicalDate]] = self.list_of_events[event_date]
+            if doctor_id in date_events.keys():
+                date_events[doctor_id].append(evento)
+            else:
+                date_events[doctor_id] = [evento]
+        else: 
+            self.list_of_events[event_date]={}
+            self.list_of_events[event_date][doctor_id]=[evento]
+
+        self.actual_id += 1
+
+    def get_all(self, filter=None) -> list[MedicalDate]:
         events: list[MedicalDate] = []
-        for date in self.list_of_events.values:
-            for doctor_dates in date.values:
-                events.extend(doctor_dates)     #todo revisar si esto funciona
+        for date in self.list_of_events.values():
+            for doctor_dates in date.values():
+                events.extend(doctor_dates)
+        if filter is not None:
+            for e in events:
+                if not filter(e):
+                    events.remove(e)
         return events
 
-    def get_by_id(self, id: int):
-        events = self.get_all()
-        event_finded = None
+    def get_by_id(self, id: int): 
+        events: list[MedicalDate] = self.get_all()
         for event in events:
             if event.id == id:
-                event_finded = event
-        return event_finded
-        
-    def change_state(self, id: int, state: str): #todo terminar el save y ponerle los params a la ultima linea
-        event = self.get_by_id(id)
-        event.state = state
-        self.save()
- 
-    #TODO que hace el save
-    #TODO revisar (creo q no hacen falta los params)
-    def save(self, event: MedicalDate, created_at: datetime.time):     
-        # Escribe en Base de Datos
-        # Context.save_repo(Events, self.list_of_events)
-
-        # TODO meter en otro metodo (va en en handle)
-        if event.date_time in self.list_of_events:
-            day_events: dict[str, list[MedicalDate]] = self.list_of_events[event.date_time]
-            if event.employee.name in day_events:
-                day_events[event.employee.name].append(event)
-                employee_events = day_events[event.employee.name]
-
-                if event.is_urgency:
-                    self.order_by_urgency(employee_events,created_at)
-
-            else: 
-                day_events[event.employee.name] = [event]
-                return
-        
-        else:
-            self.list_of_events[event.date] = {event.employee.name: [event]}
-            return
-
-    # esto se usa en el save (que esta mal)  asi que seguro se borra
-    # si se agg una urgencia y hay que organizar #TODO move to handle
-    def order_by_urgency(self, employee_events: list[MedicalDate], created_at: datetime.time) -> None:
-        event = employee_events.pop()
-        index = self.find_index(employee_events, created_at)
-    def find_index(self, employee_events: list[MedicalDate], created_at: datetime.time) -> int:
-        for index in range(len(employee_events)):
+                return event
             
-            if employee_events[index].time < created_at:
-                continue
-
-            elif employee_events[index].time == created_at:
-                if employee_events[index].is_urgency:
-                    continue
-                return index
-           
-            else: return index
-        return len(employee_events)   
+        raise Exception(f"El evento de ID: {id} no se encuentra en la base de datos")
+        
+    def change_state(self, id: int, new_state: str): 
+        event = self.get_by_id(id)
+        if event.state == new_state:
+            raise Exception(f"La cita ya estaba en el estado {new_state}")
+                
+        if event.state != "active":
+            raise Exception(f"No puede actualizar a {new_state} un evento {event.state}")
+                
+        event.state = new_state
+        return 
     
-           
     @staticmethod
-    def from_dict(data: list) -> "DateManager":
+    def from_dict(data: list, context) -> "DateManager":
         # Cargar del JSON
 
         actual_id= data[0]
@@ -94,15 +74,16 @@ class DateManager:
             eventos_por_doctor = {}
 
             for doctor, eventos in doctor.items():
-                eventos_por_doctor[doctor] = [MedicalDate.from_dict(e) for e in eventos]
+                eventos_por_doctor[doctor] = [MedicalDate.from_dict(e, context) for e in eventos]
 
             list_of_events[fecha] = eventos_por_doctor
         
         return DateManager(list_of_events, actual_id)
 
-    def to_dict(self): 
+    def to_dict(self) -> dict: 
     # Convertir a JSON serializable
-        json_ready = [self.actual_id,
+
+        data = [self.actual_id,
             {
             fecha.isoformat(): {
                 doctor: [evento.to_dict() for evento in eventos]
@@ -110,11 +91,7 @@ class DateManager:
             }
             for fecha, doctores in self.list_of_events.items()
         }]
-
-        # todo creo q va en context
-        with open("eventos.json", "w", encoding="utf-8") as f:
-            json.dump(json_ready, f, indent=2, ensure_ascii=False)
-
+        return data
 
 
 
@@ -127,10 +104,6 @@ class DateManager:
 
 # a= datetime.time(0,0)
 # print(a)
-
-
-
-    # todo hacer un for para instanciar los recursos
 
 # print(datetime.datetime.strptime("2025-Oct-11","%Y-%b-%d").date().strftime("%Y-%b-%d"))
 # print(calendar.month(2025,10))

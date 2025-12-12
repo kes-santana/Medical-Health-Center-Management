@@ -7,7 +7,8 @@ from Backend.Data_Access.context import Context
 from Backend.Data_Access.date_manager import DateManager
 from Backend.Data_Access.resource_repository import ResourceRepository
 from Backend.Domain.medical_date import MedicalDate
-from Backend.Domain.resources import Employee, Resource
+from Backend.Domain.resources import Resource
+from Backend.Domain.employee import Employee
 from Backend.Features.Events.Post.create_event_command import CreateEventCommand
 from Backend.Features.Events.Post.create_event_response import CreateEventResponse
 from constants import OPEN_HOUR, CLOSE_HOUR, MID_DAY
@@ -16,7 +17,6 @@ from constants import OPEN_HOUR, CLOSE_HOUR, MID_DAY
 
 class CreateEventHandler:
     def __init__(self, comand: CreateEventCommand):
-        
         self.command = comand
 
     actual_datetime = datetime.datetime.now()
@@ -30,48 +30,46 @@ class CreateEventHandler:
         manager: DateManager = self.context.get_repo_date_manager()
         resource_repo: ResourceRepository = self.context.get_repo_resource()
         necesary_resources: list[Resource] = self.get_necesary_resources(
-                                                self.command.necesary_resources, resource_repo)
+                                                self.command.necesary_resources, resource_repo.resource_list)
         employee_repo = self.context.get_repo_employee()
-        employee = employee_repo.get_by_id(self.command.employee)
+        employee_id, _ =self.command.employee.split(" ")
+        employee = employee_repo.get_by_id(int(employee_id))
         if employee == None:
             raise Exception("No existe ningun empleado con ese ID")
 
-        # todo ver si puedo cambiar para q solo lleve el manager pq el command esta en self
-        event: MedicalDate = self.create_appointment(manager, self.command.date, self.command.time,
-                        self.command.owns_name, employee, 
-                        self.command.is_urgency, necesary_resources)
         
-        manager.actual_id += 1
-        manager.save()      #todo el save en todos los repos
+        event: MedicalDate = self.create_appointment(manager, self.command.date, self.command.time, self.command.asigned_date_time_auto,
+                        self.command.owns_name, employee, self.command.is_urgency, 
+                        necesary_resources)
+        
+        manager.add_event(event.date_time,str(event.employee.id),event)
+        self.context.save(manager)
         print("Event created")
-        
-        # TODO: Devolver un objeto de tipo response con la info del evento
-        return CreateEventResponse()
-
+        return CreateEventResponse(event.id, event.date_time, event.owns_name, event.employee.name)
+   
     def create_appointment(self, manager: DateManager, appointment_date: str, appointment_time: str,
                            asigned_date_time_auto: bool, owns_name: str, employee: Employee,
                            is_urgency: bool, necesary_resources: list[Resource]) -> MedicalDate:
             if asigned_date_time_auto:
-                appointment_date_time= self.asigned_date_time_auto_to_event(employee)
+                appointment_date_time= self.asigned_date_time_auto_to_event(manager, employee)
 
             else:   
                 appointment_date_time = self.is_valid_date(manager, appointment_date,
                                                            appointment_time, is_urgency, employee)
             
             self.employee_disponibility(employee, appointment_date)
-            self.validate_necesary_resources(necesary_resources)
-            self.descontar_recursos(necesary_resources)
-
+            self.validate_necesary_resources(necesary_resources, []) #todo Arreglar esta jugada del count
+            self.descontar_recursos(necesary_resources, [])
+            
             return MedicalDate(manager.actual_id, appointment_date_time, owns_name, employee,
                                is_urgency, necesary_resources, self.command.appointment_name) 
-  
   
     def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> None:
         if employee.on_vacations and employee.vacations[0].date() < appointment_date < employee.vacations[1].date():
             raise Exception("Empleado no disponible")
 
-    def get_necesary_resources(self, necesary_resources: list[str],
-                               resource_list: dict[int, Resource]) -> list[Resource]:
+    def get_necesary_resources(self, necesary_resources: list[int],
+                               resource_list: dict[str, Resource]) -> list[Resource]:
         
         resources: list[Resource] = []
 
@@ -80,14 +78,15 @@ class CreateEventHandler:
         
         for recurso in necesary_resources:
             for r in resource_list.values():
-                if r.name == recurso:
+                if r.id == recurso:
                     resources.append(r)
                     break
-            if len(resources)==0 or resources[-1].name != recurso:
-                raise Exception(f"El recurso {recurso} no esta en almacen")
+            if len(resources)==0 or resources[-1].id != recurso:
+                raise Exception(f'El recurso de ID: "{recurso}" no esta en almacen')
         
         return resources
     
+#  todo agregar al validador de recursos que si no es gastable solo debe revisar el estado
     def validate_necesary_resources(self, necesary_resources: list[Resource], count_of_resource: list[int]) -> None:
         for resource in range(len(necesary_resources)):
             r = necesary_resources[resource]
@@ -112,14 +111,15 @@ class CreateEventHandler:
     def is_valid_date(self, manager: DateManager, appointment_date: str, appointment_time: str, is_urgency: bool, employee: Employee) -> datetime.datetime:
      
         self.validate_day(appointment_date)
+        date= datetime.datetime.strptime(appointment_date,"%Y/%m/%d").date()
         if not is_urgency:
            appointment_time = self.validate_time(manager, appointment_date, appointment_time, employee)
         
-        else: 
-            appointment_time: datetime.time = self.proces_urgency()
+        else: #TODO: ARREGLAR LA URGENCIA, URGE. Que hacer si no hay eventos con la date especifica o el doctor
+            appointment_time: datetime.time = self.proces_urgency(manager.list_of_events[date][str(employee.id)])
             appointment_time = appointment_time.isoformat()
 
-        return datetime.datetime.strptime(f"{appointment_date} {appointment_time}", "%Y/%m/%d %H:%M")
+        return datetime.datetime.strptime(f"{appointment_date} {appointment_time}", "%Y/%m/%d %H:%M:%S")
     
     def validate_day(self, day: str):
         try:
@@ -144,7 +144,7 @@ class CreateEventHandler:
         
         if apointment_time != None:
             try:
-                time: datetime.time = datetime.datetime.strptime(apointment_time, "%H:%M").time()
+                time: datetime.time = datetime.datetime.strptime(apointment_time, "%H:%M:%S").time()
             except:
                 raise Exception("Hora no valida")
             else: 
@@ -185,8 +185,8 @@ class CreateEventHandler:
             day_events: dict[str: list[MedicalDate]] = manager.list_of_events[day]
             
             # si el doc esta en el dict
-            if event_employee.key in day_events:
-                return day_events[event_employee.key]
+            if str(event_employee.id) in day_events.keys():
+                return day_events[str(event_employee.id)]
 
         return []
 
@@ -241,7 +241,7 @@ class CreateEventHandler:
         # Ordenar eventos por hora
         eventos.sort(key=lambda e: e.date_time)
         if eventos[0].date_time.time() > OPEN_HOUR:
-            new_date_time = datetime.datetime.combine(eventos[0], OPEN_HOUR)
+            new_date_time = datetime.datetime.combine(eventos[0].date_time, OPEN_HOUR)
             end_new_date = new_date_time + datetime.timedelta(hours=eventos[0].duration.hour,
                                                         minutes=eventos[0].duration.minute)
             self.arreglar_solapamientos(0, new_date_time, end_new_date, eventos)

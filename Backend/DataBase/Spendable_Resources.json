@@ -1,46 +1,29 @@
 {
-    "1":{
-            "id":1,
-            "name": "colirios anestesicos"
-        },
-
-    "2":{
-            "id":2,
-            "name": "recetas medicas"
-        },
-
-    "3":{
-            "id":3,
-            "name": "midriaticos"
-        },
-
-    "4":{
-            "id":4,
-            "name": "lagrimas artificiales"
-        },
-
-    "5":{
-            "id":5,
-            "name": "lentes blandos terapeuticos"
-        },
-
-    "6":{
-            "id":6,
-            "name": "hipotensores oculares"
-        },
-
-    "7":{
-            "id":7,
-            "name": "filtros opticos"
-        },
-
-    "8":{
-            "id":8,
-            "name": "lupas"
-        },
-
-    "9":{
-            "id":9,
-            "name": "espejuelos"
-        }
+  "1": {
+    "id": 1,
+    "name": "Laptop",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "disponible",
+    "count": 5,
+    "is_espendable": true
+  },
+  "2": {
+    "id": 2,
+    "name": "tv",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 5,
+    "is_espendable": false
+  },
+  "3": {
+    "id": 3,
+    "name": "tv-led",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 2,
+    "is_espendable": false
+  }
 }
