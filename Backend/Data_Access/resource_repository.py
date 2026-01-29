@@ -3,7 +3,7 @@ from Backend.Domain.resources import Resource
 from constants import SPENDABLE
 
 class ResourceRepository:
-    def __init__(self, resource_list: dict[str, Resource]):
+    def __init__(self, resource_list: dict[str, Resource]={}):
         self.resource_list : dict[int, Resource] = resource_list
         self.count: int = len(resource_list)
 
@@ -19,7 +19,6 @@ class ResourceRepository:
 
     def get_by_id(self, id: int) -> Resource:
         # Esta claro lo que hace
-        item_finded = None
         items_list: list[Resource] = self.get_all()
         for item in items_list:
             if item.id == id:
@@ -49,7 +48,7 @@ class ResourceRepository:
 
         resource_list: dict[int, Resource] = {}
         for id, r in data.items():
-            resource_list[id]= Resource.from_dict(r)
+            resource_list[id] = Resource.from_dict(r)
         return ResourceRepository(resource_list)                              
 
     def to_dict(self) -> dict[int, dict]: 

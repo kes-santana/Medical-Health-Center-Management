@@ -1,0 +1,16 @@
+{
+  "default_admin": {
+    "id": 0,
+    "user_name": "default_admin",
+    "employee_key": "0 default_admin",
+    "password": "default_admin",
+    "rol": "admin"
+  },
+  "nuevo_empleado_brenda": {
+    "id": 1,
+    "user_name": "nuevo_empleado_brenda",
+    "employee_key": "5 Brenda",
+    "password": "0123456789",
+    "rol": "doctor"
+  }
+}

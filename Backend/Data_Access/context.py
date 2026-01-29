@@ -4,6 +4,7 @@ import os
 from Backend.Data_Access.date_manager import DateManager
 from Backend.Data_Access.employee_repository import EmployeeRepository
 from Backend.Data_Access.resource_repository import ResourceRepository
+from Backend.Data_Access.users_repository import UsersRepository
 from constants import *
 
 # todo hacer el predicate de los filtred
@@ -22,7 +23,10 @@ class Context:
            name_repo = EVENTS
        elif type(repo) ==  EmployeeRepository:
            name_repo = EMPLOYEES
-       else: name_repo = SPENDABLE
+       elif type(repo) ==  ResourceRepository:
+            name_repo = SPENDABLE
+       else: 
+           name_repo = USERS
            
        root, _ = self._validate_json_size(name_repo)
        with open(root, "w", encoding="utf-8") as f:
@@ -64,3 +68,10 @@ class Context:
             return EmployeeRepository({})
         json_data = self._validate_content(root)
         return EmployeeRepository.from_dict(json_data)
+    
+    def get_repo_users(self) -> UsersRepository:
+        root, size_equal_zero = self._validate_json_size(USERS)
+        if size_equal_zero:
+            return UsersRepository()
+        json_data: list = self._validate_content(root)       
+        return UsersRepository.from_dict(json_data)

@@ -5,7 +5,7 @@
     "use_with": [],
     "dont_use_with": [],
     "use_state": "disponible",
-    "count": 5,
+    "count": 6,
     "is_espendable": true
   },
   "2": {
@@ -14,7 +14,7 @@
     "use_with": [],
     "dont_use_with": [],
     "use_state": "active",
-    "count": 5,
+    "count": 6,
     "is_espendable": false
   },
   "3": {

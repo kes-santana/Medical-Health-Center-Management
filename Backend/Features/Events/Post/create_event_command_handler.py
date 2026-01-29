@@ -40,7 +40,7 @@ class CreateEventHandler:
         
         event: MedicalDate = self.create_appointment(manager, self.command.date, self.command.time, self.command.asigned_date_time_auto,
                         self.command.owns_name, employee, self.command.is_urgency, 
-                        necesary_resources)
+                        necesary_resources, self.command.resources_count)
         
         manager.add_event(event.date_time,str(event.employee.id),event)
         self.context.save(manager)
@@ -49,24 +49,27 @@ class CreateEventHandler:
    
     def create_appointment(self, manager: DateManager, appointment_date: str, appointment_time: str,
                            asigned_date_time_auto: bool, owns_name: str, employee: Employee,
-                           is_urgency: bool, necesary_resources: list[Resource]) -> MedicalDate:
+                           is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int]) -> MedicalDate:
             if asigned_date_time_auto:
-                appointment_date_time= self.asigned_date_time_auto_to_event(manager, employee)
+                appointment_date_time = self.asigned_date_time_auto_to_event(manager, employee)
 
             else:   
                 appointment_date_time = self.is_valid_date(manager, appointment_date,
                                                            appointment_time, is_urgency, employee)
             
             self.employee_disponibility(employee, appointment_date)
-            self.validate_necesary_resources(necesary_resources, []) #todo Arreglar esta jugada del count
-            self.descontar_recursos(necesary_resources, [])
+            self.convert_resources(necesary_resources)
+            self.validate_necesary_resources(necesary_resources, resources_count)
+            self.validate_reusable_resources(self, manager, appointment_date_time, necesary_resources, resources_count)
+            self.descontar_recursos(necesary_resources, self.command.resources_count)
             
             return MedicalDate(manager.actual_id, appointment_date_time, owns_name, employee,
                                is_urgency, necesary_resources, self.command.appointment_name) 
-  
+
     def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> None:
-        if employee.on_vacations and employee.vacations[0].date() < appointment_date < employee.vacations[1].date():
-            raise Exception("Empleado no disponible")
+        if employee.vacations:
+            if employee.vacations[0].date() < appointment_date < employee.vacations[1].date():
+                raise Exception("Empleado no disponible")
 
     def get_necesary_resources(self, necesary_resources: list[int],
                                resource_list: dict[str, Resource]) -> list[Resource]:
@@ -77,21 +80,20 @@ class CreateEventHandler:
             return resources
         
         for recurso in necesary_resources:
-            for r in resource_list.values():
-                if r.id == recurso:
-                    resources.append(r)
+            for r in resource_list.keys():
+                if int(r) == recurso:
+                    resources.append(int(r))
                     break
             if len(resources)==0 or resources[-1].id != recurso:
                 raise Exception(f'El recurso de ID: "{recurso}" no esta en almacen')
         
         return resources
     
-#  todo agregar al validador de recursos que si no es gastable solo debe revisar el estado
-    def validate_necesary_resources(self, necesary_resources: list[Resource], count_of_resource: list[int]) -> None:
+    def validate_necesary_resources(self, necesary_resources: list[Resource], resources_count: list[int]) -> None:
         for resource in range(len(necesary_resources)):
             r = necesary_resources[resource]
 
-            if r.count == 0 or r.count - count_of_resource[resource] < 0:
+            if r.count == 0 or r.count - resources_count[resource] < 0:
                 raise Exception(f'No hay disponibilidad del producto "{r.name}" en el almacen')
                 
             for u_w in r.use_with:
@@ -102,9 +104,59 @@ class CreateEventHandler:
                 if any(x.id == d_u_w for x in necesary_resources):
                     raise Exception(f'El recurso "{r.name}" no puede usarse con el recurso con ID: "{d_u_w}" y este ultimo esta en la lista de recursos')
      
-    def descontar_recursos(self, necesary_resources: list[Resource], count_of_resource: list[int]) -> None:
+    def validate_reusable_resources(self, manager: DateManager, appointment_date_time: datetime.datetime, 
+                                    necesary_resources: list[Resource], resources_count: list[int]) -> None:
+        events = manager.get_all()
+        events_filtred = [e for e in events if e.date_time.date() == appointment_date_time.date()]
+
+        for resource in range(len(necesary_resources)):
+            r = necesary_resources[resource]
+            c = resources_count[resource]
+            if r.is_espendable:
+                continue
+
+            r_events = self.find_resource_event(r, appointment_date_time, events_filtred)
+            if r.count - r_events >= c:
+                continue
+            else:
+                raise Exception(f'El recurso "{r.name}" no esta disponible en este momento')
+
+    def find_resource_event(self, resource: Resource, events_filtred: list[MedicalDate],
+                            appointment_date_time: datetime.datetime, duration_min: int):
+        count = 0
+        ap_time = appointment_date_time.time()
+        ap_tdelta = datetime.timedelta(hours=ap_time.hour, minutes=ap_time.minute)
+        duration_tdelta = datetime.timedelta(minutes=duration_min)
+        ap_end =  ap_tdelta + duration_tdelta
+
+        for e in events_filtred:
+            nr = e.necesary_resources
+            is_on_event = False
+            index =0
+            for r in range(len(nr)):
+                if nr[r].id == resource.id:
+                  is_on_event = True
+                  index = r
+                  break  
+            
+            if not is_on_event:
+                continue
+
+            e_time = e.date_time.time()
+            e_tdelta = datetime.timedelta(hours=e_time.hour, minutes=e_time.minute)
+            e_duration_tdelta = datetime.timedelta(minutes=e.duration.minute)
+            event_end = e_tdelta + e_duration_tdelta
+            
+
+            if (e_tdelta <= ap_tdelta <= event_end) or (e_tdelta <= ap_end <= event_end):
+                count += e.resources_count[index]
+        
+        return count
+
+    def descontar_recursos(self, necesary_resources: list[Resource], resources_count: list[int]) -> None:
         for r in range(len(necesary_resources)):
-            necesary_resources[r].count -= count_of_resource[r]
+            if necesary_resources[r].is_espendable:
+                necesary_resources[r].count -= resources_count[r]
        
     
     # todo: revisar con calma de aqui para abajo 

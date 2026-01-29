@@ -10,5 +10,41 @@
       "2025-10-08",
       "2025-12-02"
     ]
+  },
+  "2 Lale": {
+    "id": 2,
+    "name": "Lale",
+    "key": "2 Lale",
+    "experience": 15,
+    "is_doctor": false,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "3 Andrea": {
+    "id": 3,
+    "name": "Andrea",
+    "key": "3 Andrea",
+    "experience": 15,
+    "is_doctor": false,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "4 Alex": {
+    "id": 4,
+    "name": "Alex",
+    "key": "4 Alex",
+    "experience": 15,
+    "is_doctor": false,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "5 Brenda": {
+    "id": 5,
+    "name": "Brenda",
+    "key": "5 Brenda",
+    "experience": 15,
+    "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
   }
 }

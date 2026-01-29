@@ -1,7 +1,4 @@
-
-
 from datetime import datetime, time
-
 
 class GetEventResponse:
     def __init__(self, event_state: str, event_id: int, event_date_time: datetime, 

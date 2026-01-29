@@ -12,7 +12,7 @@ class GetEventHandler:
     context = Context()
     manager = context.get_repo_date_manager()
 
-    def get_event(self) -> GetEventResponse:
+    def excecute(self) -> GetEventResponse:
        
         event = self.manager.get_by_id(self.command.event_id)
         necesary_resources = [r.name for r in event.necesary_resources]

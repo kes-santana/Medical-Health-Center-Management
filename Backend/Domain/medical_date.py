@@ -11,7 +11,7 @@ class MedicalDate:
     """Representa cada cita medica"""
 
     def __init__(self, id: int, date_time: datetime.datetime,owns_name: str, employee: Employee,
-                 is_urgency: bool, necesary_resources: list[Resource], appointment_name: str):
+                 is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int], appointment_name: str):
         """Inicializa la clase MedicalDate"""
 
         self.id: int = id
@@ -22,6 +22,7 @@ class MedicalDate:
         self.is_urgency: bool = is_urgency
         self.duration: datetime.time = employee.productivity()
         self.necesary_resources: list[Resource] = necesary_resources
+        self.resources_count: list[int] = resources_count
         self.state: str = "active"
         self.appointment_name = appointment_name
 
@@ -37,6 +38,7 @@ class MedicalDate:
             "is_urgency": self.is_urgency,
             "duration": self.duration.isoformat(),
             "necesary_resources": [resource.id for resource in self.necesary_resources],
+            "resources_count": self.resources_count,
             "state": self.state,
             "appointment_name": self.appointment_name
         } 
@@ -61,5 +63,6 @@ class MedicalDate:
             employee = employee,
             is_urgency = data["is_urgency"],
             necesary_resources = recursos,
+            resources_count = data["resources_count"],
             appointment_name = data["appointment_name"]
         )

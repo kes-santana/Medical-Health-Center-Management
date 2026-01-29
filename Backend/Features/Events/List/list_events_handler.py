@@ -10,11 +10,12 @@ class ListEventCommandHandler:
     context = Context()
     manager = context.get_repo_date_manager()
 
-    def execute(self):
+    def execute(self) -> list[EventDto]:
         events = self.manager.get_all()
         result = []
         query = self.command.query
         for e in events:
-            if query in e.appointment_name or query in e.employee.name or query in e.owns_name:
+            if query == "" or e.appointment_name in query or e.employee.name in query or e.owns_name in query:
                 result.append(EventDto.to_event_dto(e))
-        return result.sort(key= lambda x: x.date)
+        result.sort(key= lambda x: x.date)
+        return result

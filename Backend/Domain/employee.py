@@ -59,7 +59,7 @@ class Employee():
             "experience": self.experience,
             "is_doctor": self.is_doctor,
             "on_vacations": self.on_vacations,
-            "vacations": [date.isoformat() for date in self.vacations] if self.vacations else None
+            "vacations": [date.isoformat() for date in self.vacations] if self.vacations else []
         }
     
     @staticmethod
@@ -69,8 +69,8 @@ class Employee():
             id=data["id"],
             name=data["name"],
             experience=data["experience"],
-            #is_doctor=data["is_doctor"],
-            #on_vacations=data["on_vacations"],
+            is_doctor=data["is_doctor"],
+            on_vacations=data["on_vacations"],
             vacations=vacations
             )
     

@@ -64,7 +64,7 @@ class DateManager:
     def from_dict(data: list, context) -> "DateManager":
         # Cargar del JSON
 
-        actual_id= data[0]
+        actual_id = data[0]
 
         # Reconstruir estructura
         list_of_events: dict[datetime.date, dict[str, list[MedicalDate]]] = {}

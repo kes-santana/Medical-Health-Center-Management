@@ -11,7 +11,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -22,7 +23,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -33,7 +35,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -44,7 +47,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -55,7 +59,8 @@
           "is_urgency": true,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -66,7 +71,8 @@
           "is_urgency": true,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -77,7 +83,8 @@
           "is_urgency": true,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -88,7 +95,8 @@
           "is_urgency": true,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -99,7 +107,8 @@
           "is_urgency": true,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -110,7 +119,8 @@
           "is_urgency": true,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -121,7 +131,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -132,7 +143,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         }
       ]
@@ -147,7 +159,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         },
         {
@@ -158,7 +171,8 @@
           "is_urgency": false,
           "duration": "00:15:00",
           "necesary_resources": [],
-          "state": "active",
+          "resources_count": [],
+          "state": "finished",
           "appointment_name": "Cirugia"
         }
       ]
