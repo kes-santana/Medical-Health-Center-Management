@@ -14,9 +14,10 @@ class ChangeStateEndpiont:
         if name_repo == EVENTS:
             repo: DateManager = context.get_repo_date_manager()
             objeto = "evento"
-        else:
-            repo: ResourceRepository = context.get_repo_resource()
-            objeto = "recurso"
+            
+        # else:
+        #     repo: ResourceRepository = context.get_repo_resource()
+        #     objeto = "recurso"
 
         repo.change_state(id, new_state)
         context.save(repo)

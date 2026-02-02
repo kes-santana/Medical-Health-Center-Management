@@ -1,179 +1,216 @@
 [
-  15,
+  14,
   {
-    "2025-12-18": {
+    "2026-02-03": {
       "1": [
         {
           "id": 1,
-          "date_time": "2025-12-18T16:00:00",
-          "owns_name": "Miguel",
+          "date_time": "2026-02-03T11:35:00",
+          "owns_name": "juan",
           "employee": 1,
           "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "necesary_resources": [
+            4
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor al Orinar"
         },
         {
           "id": 2,
-          "date_time": "2025-12-18T12:00:00",
-          "owns_name": "Miguel",
+          "date_time": "2026-02-03T12:09:00",
+          "owns_name": "Katy",
           "employee": 1,
           "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor al Orinar"
         },
         {
           "id": 3,
-          "date_time": "2025-12-18T11:00:00",
-          "owns_name": "Miguel",
+          "date_time": "2026-02-03T13:00:00",
+          "owns_name": "Pedro",
           "employee": 1,
           "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
-        },
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            10
+          ],
+          "state": "active",
+          "appointment_name": "Rayos X"
+        }
+      ],
+      "2": [
         {
           "id": 4,
-          "date_time": "2025-12-18T10:30:00",
-          "owns_name": "Miguel",
-          "employee": 1,
-          "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
-        },
-        {
-          "id": 5,
-          "date_time": "2025-12-18T09:00:00",
-          "owns_name": "Miguel",
-          "employee": 1,
-          "is_urgency": true,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
-        },
-        {
-          "id": 6,
-          "date_time": "2025-12-18T09:15:00",
+          "date_time": "2026-02-03T14:00:00",
           "owns_name": "Juan",
-          "employee": 1,
-          "is_urgency": true,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "employee": 2,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Rayos X otra vez"
         },
         {
           "id": 7,
-          "date_time": "2025-12-18T09:30:00",
-          "owns_name": "Juan",
-          "employee": 1,
+          "date_time": "2026-02-03T09:00:00",
+          "owns_name": "Felipe",
+          "employee": 2,
           "is_urgency": true,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "necesary_resources": [
+            3
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "infarto"
         },
         {
           "id": 8,
-          "date_time": "2025-12-18T09:45:00",
-          "owns_name": "Juan",
-          "employee": 1,
-          "is_urgency": true,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
-        },
+          "date_time": "2026-02-03T09:20:00",
+          "owns_name": "Yudivian",
+          "employee": 2,
+          "is_urgency": false,
+          "necesary_resources": [
+            3,
+            4
+          ],
+          "resources_count": [
+            1,
+            2
+          ],
+          "state": "active",
+          "appointment_name": "Dolor garganta"
+        }
+      ],
+      "3": [
         {
           "id": 9,
-          "date_time": "2025-12-18T10:00:00",
-          "owns_name": "Juan",
-          "employee": 1,
-          "is_urgency": true,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "date_time": "2026-02-03T09:00:00",
+          "owns_name": "David",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "Migrana"
         },
         {
           "id": 10,
-          "date_time": "2025-12-18T10:15:00",
-          "owns_name": "Juan",
-          "employee": 1,
-          "is_urgency": true,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "date_time": "2026-02-03T10:00:00",
+          "owns_name": "Lilo",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "Migrana"
         },
         {
           "id": 11,
-          "date_time": "2025-12-18T17:00:00",
-          "owns_name": "Juan",
-          "employee": 1,
+          "date_time": "2026-02-03T09:25:00",
+          "owns_name": "Aleida",
+          "employee": 3,
           "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "Migrana"
         },
         {
-          "id": 14,
-          "date_time": "2025-12-18T17:50:00",
-          "owns_name": "lale",
-          "employee": 1,
-          "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
-        }
-      ]
-    },
-    "2025-12-11": {
-      "1": [
-        {
           "id": 12,
-          "date_time": "2025-12-11T09:00:00",
-          "owns_name": "Juan",
-          "employee": 1,
+          "date_time": "2026-02-03T10:30:00",
+          "owns_name": "Alina",
+          "employee": 3,
           "is_urgency": false,
-          "duration": "00:15:00",
-          "necesary_resources": [],
-          "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "Migrana"
         },
         {
           "id": 13,
-          "date_time": "2025-12-11T09:15:00",
-          "owns_name": "lale",
+          "date_time": "2026-02-03T10:55:00",
+          "owns_name": "Carlos",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "Jaqueca"
+        }
+      ]
+    },
+    "2026-02-04": {
+      "2": [
+        {
+          "id": 5,
+          "date_time": "2026-02-04T10:00:00",
+          "owns_name": "Diana",
+          "employee": 2,
+          "is_urgency": false,
+          "necesary_resources": [
+            5,
+            4,
+            3
+          ],
+          "resources_count": [
+            1,
+            10,
+            10
+          ],
+          "state": "active",
+          "appointment_name": "Cirugia Plastica"
+        }
+      ]
+    },
+    "2026-03-02": {
+      "1": [
+        {
+          "id": 6,
+          "date_time": "2026-03-02T12:45:00",
+          "owns_name": "Felipe",
           "employee": 1,
           "is_urgency": false,
-          "duration": "00:15:00",
           "necesary_resources": [],
           "resources_count": [],
-          "state": "finished",
-          "appointment_name": "Cirugia"
+          "state": "active",
+          "appointment_name": "Ceguera"
         }
       ]
     }

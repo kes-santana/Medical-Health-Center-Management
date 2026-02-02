@@ -1,18 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # from Backend.Endpoins.resources_endpoints.create_resource_endpoint import ResourceCreator
 # endppoint= ResourceCreator()
 # endppoint.create_resource("tv-led", 2, False, [], [6])
@@ -62,7 +48,8 @@ from Backend.Features.Events.Get.get_event_command import GetEventCommand
 from Backend.Features.Events.Get.get_event_command_handler import GetEventHandler
 from Backend.Features.Events.List.list_events_command import ListEventsCommand
 from Backend.Features.Events.List.list_events_handler import ListEventCommandHandler
-# endpoint = CreateEventEndpoint()
+endpoint = CreateEventEndpoint()
+# endpoint.excecute()
 # command = GetEventCommand(1)
 # handler = GetEventHandler(command)
 # response = handler.excecute()
@@ -72,16 +59,17 @@ from Backend.Features.Events.List.list_events_handler import ListEventCommandHan
 # c = b.execute()
 # d=c
 
-# endpoint.create_event(
-#     date= "2025/12/19",
-#     time= "16:00:00",
-#     owns_name= "lale",
-#     employee_id= '1 Miguel',
-#     is_urgency= False,
-#     necesary_resources= [],
-#     asigned_date_time_auto= False,
-#     appointment_name= "Cirugia"
-# )
+endpoint.excecute(
+    date= "2026-2-3",
+    time= "17:00:00",
+    owns_name= "Lee",
+    employee_id= 1,
+    is_urgency= False,
+    necesary_resources= [1],
+    recs_count=[1],
+    asigned_date_time_auto= False,
+    appointment_name= "Cirugia"
+)
                                                                                     
 # endp = EmployeeCreatorEndpoint()
 # endp.excecute("Alex", 15, True)

@@ -16,7 +16,6 @@ class SetNewDontUseWithEndpoint:
         
         resource_id.dont_use_with.append(restricted_resource_id)
         resource_id.verificar_dependencias(resources_repo)
-        # todo no se si esto haria falta ponerlo dentro de revisar_dependencias
         resource_id.revisar_codependencias(resources_repo)
         resources_repo.to_dict()
         context.save(resources_repo)

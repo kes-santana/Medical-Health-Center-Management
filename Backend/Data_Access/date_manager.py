@@ -10,10 +10,10 @@ from Backend.Domain.medical_date import MedicalDate
 class DateManager:
     """Representa la clase Cronograma"""
     
-    def __init__(self, list_of_events: dict[(datetime.date): dict[str: list[MedicalDate]]]={},
+    def __init__(self, list_of_events: dict[datetime.date: dict[str: list[MedicalDate]]]={},
                  actual_id: int=1):
         """Inicializa la clase Cronograma"""
-        self.list_of_events : dict[(datetime.date): dict[str: list[MedicalDate]]]  = list_of_events
+        self.list_of_events : dict[datetime.date: dict[str: list[MedicalDate]]]  = list_of_events
         self.actual_id : int = actual_id
 
     def add_event(self, date_time: datetime, doctor_id: str, evento: MedicalDate):

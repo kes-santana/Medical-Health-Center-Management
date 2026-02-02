@@ -7,10 +7,8 @@ from Backend.Features.Events.Get.get_event_response import GetEventResponse
 class GetEventHandler:
     def __init__(self, command: GetEventCommand):
         self.command = command
-    
-    # todo donde debe ir esto aqui o dentro del innit
-    context = Context()
-    manager = context.get_repo_date_manager()
+        self.context = Context()
+        self.manager = self.context.get_repo_date_manager()
 
     def excecute(self) -> GetEventResponse:
        

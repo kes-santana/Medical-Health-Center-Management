@@ -5,9 +5,6 @@ from Backend.Domain.resources import Resource
 
 
 class SetNewUseWithEndpoint:
-
-    # todo hay algun problema si se elimina alguna propiedad del json?
-    # todo crear endp para cada metodo
     def excecute(self,resource_id: int, restricted_resource_id: int) -> None:
         
         context = Context()

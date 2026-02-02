@@ -10,8 +10,8 @@ class Employee():
         self.id: int = id
         self.name: str = name
         self.key = f"{id} {name}"
-        self.experience: int = experience       # dict{machine: exp}  dict[str: int] #todo todavia no lo uso
-        self.is_doctor = is_doctor              # todo ver que hacer con esto a futuro
+        self.experience: int = experience
+        self.is_doctor = is_doctor              
         self.on_vacations: bool = on_vacations
         self.vacations: list[date] = vacations  
 

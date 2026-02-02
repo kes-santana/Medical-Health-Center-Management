@@ -1,7 +1,4 @@
-
 from Backend.Domain.employee import Employee
- 
-# todo quitar on_vacations
 
 class EmployeeRepository:
     def __init__(self, employee_list: dict[str, Employee]):
@@ -45,13 +42,3 @@ class EmployeeRepository:
             data[key] = e.to_dict()
 
         return data
-    
-
-    #  todo que sentido tiene cambiarle el estado a un trabajador
-    # def change_state(self, id: int, state: str) -> None:    #todo ajustar params del save
-    #     item = self.get_by_id(id)
-    #     if item != None:
-    #         item.state = state
-    #         self.save()
-        
-    #     else: print(f"No se encontro item con ID: {id}")

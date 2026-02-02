@@ -8,12 +8,10 @@ from Backend.Domain.employee import Employee
 
 class EmployeeVacationsSeterEndpoint:
 
-    def excecute(self, employee_id: int, start_vacation: str, end_vacation: str) -> None:
+    def excecute(self, employee_id: int, start_vacation: datetime.date, end_vacation: datetime.date) -> None:
         context = Context()
-        employee_repo = context.get_repo_employee()
-        start_vacation: date = datetime.strptime(start_vacation, "%Y/%m/%d").date()
-        end_vacation: date = datetime.strptime(end_vacation, "%Y/%m/%d").date()
-        
+        employee_repo = context.get_repo_employee() 
+        print([(x.key, x.id) for x in employee_repo.employee_list.values()])
         employee: Employee = employee_repo.get_by_id(employee_id)
         employee.set_vacations(start_vacation, end_vacation)
         context.save(employee_repo)

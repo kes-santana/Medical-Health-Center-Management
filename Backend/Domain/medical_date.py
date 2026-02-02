@@ -10,8 +10,8 @@ from Backend.Domain.employee import Employee
 class MedicalDate:
     """Representa cada cita medica"""
 
-    def __init__(self, id: int, date_time: datetime.datetime,owns_name: str, employee: Employee,
-                 is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int], appointment_name: str):
+    def __init__(self, id: int, date_time: datetime.datetime, owns_name: str, employee: Employee,
+                 is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int], appointment_name: str, state: str="active"):
         """Inicializa la clase MedicalDate"""
 
         self.id: int = id
@@ -21,9 +21,10 @@ class MedicalDate:
         # self.especiality: str = employee.especiality
         self.is_urgency: bool = is_urgency
         self.duration: datetime.time = employee.productivity()
+        self.end_time: datetime.time = (date_time + datetime.timedelta(hours=self.duration.hour, minutes=self.duration.minute)).time()
         self.necesary_resources: list[Resource] = necesary_resources
         self.resources_count: list[int] = resources_count
-        self.state: str = "active"
+        self.state: str = state
         self.appointment_name = appointment_name
 
     def to_dict(self) -> dict:
@@ -36,7 +37,6 @@ class MedicalDate:
             "employee": self.employee.id,
             # "especiality": self.especiality,
             "is_urgency": self.is_urgency,
-            "duration": self.duration.isoformat(),
             "necesary_resources": [resource.id for resource in self.necesary_resources],
             "resources_count": self.resources_count,
             "state": self.state,
@@ -64,5 +64,6 @@ class MedicalDate:
             is_urgency = data["is_urgency"],
             necesary_resources = recursos,
             resources_count = data["resources_count"],
-            appointment_name = data["appointment_name"]
+            appointment_name = data["appointment_name"],
+            state = data["state"]
         )

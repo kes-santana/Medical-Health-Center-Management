@@ -18,13 +18,12 @@ from constants import OPEN_HOUR, CLOSE_HOUR, MID_DAY
 class CreateEventHandler:
     def __init__(self, comand: CreateEventCommand):
         self.command = comand
-
-    actual_datetime = datetime.datetime.now()
-    actual_date = actual_datetime.date() 
-    actual_time =  actual_datetime.time().replace(second=0, microsecond=0)
-    context = Context()
+        self.actual_datetime = datetime.datetime.now()
+        self.actual_date = self.actual_datetime.date() 
+        self.actual_time = self.actual_datetime.time().replace(second=0, microsecond=0)
+        self.context = Context()
     
-    def execute(self) -> CreateEventResponse: #TODO: revisar
+    def execute(self) -> CreateEventResponse:
        
         print("Creating event")
         manager: DateManager = self.context.get_repo_date_manager()
@@ -32,43 +31,43 @@ class CreateEventHandler:
         necesary_resources: list[Resource] = self.get_necesary_resources(
                                                 self.command.necesary_resources, resource_repo.resource_list)
         employee_repo = self.context.get_repo_employee()
-        employee_id, _ =self.command.employee.split(" ")
-        employee = employee_repo.get_by_id(int(employee_id))
+        employee = employee_repo.get_by_id(self.command.employee)
         if employee == None:
             raise Exception("No existe ningun empleado con ese ID")
 
-        
         event: MedicalDate = self.create_appointment(manager, self.command.date, self.command.time, self.command.asigned_date_time_auto,
                         self.command.owns_name, employee, self.command.is_urgency, 
-                        necesary_resources, self.command.resources_count)
+                        necesary_resources, self.command.resources_count, self.command.time_auto)
         
         manager.add_event(event.date_time,str(event.employee.id),event)
         self.context.save(manager)
+        self.context.save(resource_repo)
         print("Event created")
         return CreateEventResponse(event.id, event.date_time, event.owns_name, event.employee.name)
    
-    def create_appointment(self, manager: DateManager, appointment_date: str, appointment_time: str,
+    def create_appointment(self, manager: DateManager, appointment_date: datetime.date, appointment_time: datetime.time,
                            asigned_date_time_auto: bool, owns_name: str, employee: Employee,
-                           is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int]) -> MedicalDate:
+                           is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int], time_auto: bool) -> MedicalDate:
             if asigned_date_time_auto:
                 appointment_date_time = self.asigned_date_time_auto_to_event(manager, employee)
 
             else:   
                 appointment_date_time = self.is_valid_date(manager, appointment_date,
-                                                           appointment_time, is_urgency, employee)
+                                                           appointment_time, is_urgency, employee, time_auto)
             
             self.employee_disponibility(employee, appointment_date)
-            self.convert_resources(necesary_resources)
+            # self.convert_resources(necesary_resources)
             self.validate_necesary_resources(necesary_resources, resources_count)
-            self.validate_reusable_resources(self, manager, appointment_date_time, necesary_resources, resources_count)
+            self.find_who_use_a_spendable_resource(necesary_resources, appointment_date_time, (appointment_date_time + datetime.timedelta(hours=employee.productivity().hour, minutes=employee.productivity().minute)).time(), manager)
+            self.validate_reusable_resources(manager, appointment_date_time, necesary_resources, resources_count, employee)
             self.descontar_recursos(necesary_resources, self.command.resources_count)
             
             return MedicalDate(manager.actual_id, appointment_date_time, owns_name, employee,
-                               is_urgency, necesary_resources, self.command.appointment_name) 
+                               is_urgency, necesary_resources, self.command.resources_count, self.command.appointment_name) 
 
     def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> None:
         if employee.vacations:
-            if employee.vacations[0].date() < appointment_date < employee.vacations[1].date():
+            if employee.vacations[0] < appointment_date < employee.vacations[1]:
                 raise Exception("Empleado no disponible")
 
     def get_necesary_resources(self, necesary_resources: list[int],
@@ -82,7 +81,7 @@ class CreateEventHandler:
         for recurso in necesary_resources:
             for r in resource_list.keys():
                 if int(r) == recurso:
-                    resources.append(int(r))
+                    resources.append(resource_list[r])
                     break
             if len(resources)==0 or resources[-1].id != recurso:
                 raise Exception(f'El recurso de ID: "{recurso}" no esta en almacen')
@@ -98,14 +97,14 @@ class CreateEventHandler:
                 
             for u_w in r.use_with:
                 if not any(x.id == u_w for x in necesary_resources):
-                    raise Exception(f'El recurso "{resource}" nesecita usarse con el recurso de ID: "{u_w}" y este ultimo no esta en la lista de recursos')
+                    raise Exception(f'El recurso "{necesary_resources[resource].id}" nesecita usarse con el recurso de ID: "{u_w}" y este ultimo no esta en la lista de recursos')
             
             for d_u_w in r.dont_use_with:
                 if any(x.id == d_u_w for x in necesary_resources):
                     raise Exception(f'El recurso "{r.name}" no puede usarse con el recurso con ID: "{d_u_w}" y este ultimo esta en la lista de recursos')
      
     def validate_reusable_resources(self, manager: DateManager, appointment_date_time: datetime.datetime, 
-                                    necesary_resources: list[Resource], resources_count: list[int]) -> None:
+                                    necesary_resources: list[Resource], resources_count: list[int], employee: Employee) -> None:
         events = manager.get_all()
         events_filtred = [e for e in events if e.date_time.date() == appointment_date_time.date()]
 
@@ -115,7 +114,7 @@ class CreateEventHandler:
             if r.is_espendable:
                 continue
 
-            r_events = self.find_resource_event(r, appointment_date_time, events_filtred)
+            r_events = self.find_resource_event(r, events_filtred, appointment_date_time, employee.productivity().minute)
             if r.count - r_events >= c:
                 continue
             else:
@@ -158,54 +157,69 @@ class CreateEventHandler:
             if necesary_resources[r].is_espendable:
                 necesary_resources[r].count -= resources_count[r]
        
-    
-    # todo: revisar con calma de aqui para abajo 
-    def is_valid_date(self, manager: DateManager, appointment_date: str, appointment_time: str, is_urgency: bool, employee: Employee) -> datetime.datetime:
+    def find_who_use_a_spendable_resource(self, resource_list_event: list[Resource], day_time: datetime.datetime, end_time:datetime.time, manager: DateManager):
+        day_filter = lambda day, event: event.date_time.date == day
+        events = manager.get_all()
+        events = [e for e in events if day_filter(day_time.date(), e)]
+        hour_events: list[MedicalDate] = []
+        
+        for e in events:
+            min_start_e = e.date_time.time() if e.date_time.time() < day_time.time() else day_time
+            if min_start_e == e.date_time.time():
+                end_min = e.end_time
+                max_start_e = day_time.time()
+            else:
+                end_min = end_time
+                max_start_e = e.date_time.time()
+            if max_start_e <= end_min:
+                hour_events.append(e)
+        
+        for rec in resource_list_event:
+            if rec.is_espendable:
+                continue
+            count_rec = 0
+            for e in hour_events:
+                if rec.id in [r.id for r in e.necesary_resources]:
+                    count_rec += e.resources_count[e.necesary_resources.index(rec)]
+            if count_rec == rec.count:
+                raise Exception(f"No hay {rec.name}s disponibles a esa hora")
+
+                
+    def is_valid_date(self, manager: DateManager, appointment_date: datetime.date, appointment_time: str, is_urgency: bool, employee: Employee, time_auto: bool) -> datetime.datetime:
      
         self.validate_day(appointment_date)
-        date= datetime.datetime.strptime(appointment_date,"%Y/%m/%d").date()
         if not is_urgency:
-           appointment_time = self.validate_time(manager, appointment_date, appointment_time, employee)
+           appointment_time = self.validate_time(manager, appointment_date, appointment_time, time_auto, employee)
         
-        else: #TODO: ARREGLAR LA URGENCIA, URGE. Que hacer si no hay eventos con la date especifica o el doctor
-            appointment_time: datetime.time = self.proces_urgency(manager.list_of_events[date][str(employee.id)])
-            appointment_time = appointment_time.isoformat()
-
-        return datetime.datetime.strptime(f"{appointment_date} {appointment_time}", "%Y/%m/%d %H:%M:%S")
-    
-    def validate_day(self, day: str):
-        try:
-            appointment_date: datetime.date = datetime.datetime.strptime(day,"%Y/%m/%d").date()         
-        except Exception():
-            raise Exception("Dia no valido")
         else:
-            if appointment_date == self.actual_date:
-                 raise Exception("No se pueden agendar citas para el mismo dia que se crean")
-            
-            if appointment_date.weekday() in [5, 6]: # or appointment_date in holidays.CountryHoliday("US", appointment_date.year):
-                # 5 o 6 == saturday or sunday
-                raise Exception("Dia no laborable")
-            
-            if appointment_date < self.actual_date:
-                raise Exception("No puede agendar cita en una fecha pasada") 
-         
-    def validate_time(self, manager: DateManager, apointment_day: str, apointment_time: str, event_employee: Employee) -> str:
-       
-        day: datetime.date = datetime.datetime.strptime(apointment_day,"%Y/%m/%d").date()
-        employee_events: list[MedicalDate] = self.doctor_is_working(manager, day, event_employee)
+            print([str(d) for d in manager.list_of_events.keys()])
+            appointment_time: datetime.time = self.proces_urgency(manager.list_of_events[appointment_date][str(employee.id)])
+
+        return datetime.datetime.combine(appointment_date, appointment_time)
+    
+    def validate_day(self, appointment_date: datetime.date):
         
-        if apointment_time != None:
-            try:
-                time: datetime.time = datetime.datetime.strptime(apointment_time, "%H:%M:%S").time()
-            except:
-                raise Exception("Hora no valida")
-            else: 
-                self.is_on_time(time, employee_events)
-                return apointment_time
+        if appointment_date == self.actual_date:
+                raise Exception("No se pueden agendar citas para el mismo dia que se crean")
+        
+        if appointment_date.weekday() in [5, 6]: # or appointment_date in holidays.CountryHoliday("US", appointment_date.year):
+            # 5 o 6 == saturday or sunday
+            raise Exception("Dia no laborable")
+        
+        if appointment_date < self.actual_date:
+            raise Exception("No puede agendar cita en una fecha pasada") 
+         
+    def validate_time(self, manager: DateManager, apointment_day: datetime.date, apointment_time: datetime.time, time_auto: bool, event_employee: Employee) -> datetime.time:
+       
+        employee_events: list[MedicalDate] = self.doctor_is_working(manager, apointment_day, event_employee)
+        
+        if not time_auto:
+            self.is_on_time(apointment_time, employee_events)
+            return apointment_time
             
         else:
             time = self.buscar_hora(employee_events)
-            return time.isoformat()
+            return time
 
     def buscar_hora(self, employee_events: list[MedicalDate]) -> datetime.time:
         """Es como buscar espacio pero teniendo el dia"""
@@ -319,7 +333,7 @@ class CreateEventHandler:
         
         self.arreglar_solapamientos(index, new_date_time, end_new_date, eventos)
         return new_date_time.time()
-
+# todo revisar
     def arreglar_solapamientos(self, index: int, new_date_time: datetime.datetime,
                                 end_new_date: datetime.datetime, eventos: list[MedicalDate]):
        

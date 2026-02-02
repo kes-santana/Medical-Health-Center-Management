@@ -1,15 +1,29 @@
 {
-  "default_admin": {
+  "admin": {
     "id": 0,
-    "user_name": "default_admin",
-    "employee_key": "0 default_admin",
-    "password": "default_admin",
+    "user_name": "admin",
+    "employee_key": "0 admin",
+    "password": "admin",
     "rol": "admin"
   },
-  "nuevo_empleado_brenda": {
+  "nuevo_empleado_miguel": {
     "id": 1,
-    "user_name": "nuevo_empleado_brenda",
-    "employee_key": "5 Brenda",
+    "user_name": "nuevo_empleado_miguel",
+    "employee_key": "1 Miguel",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_kevin": {
+    "id": 2,
+    "user_name": "nuevo_empleado_kevin",
+    "employee_key": "2 Kevin",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_marisela": {
+    "id": 3,
+    "user_name": "nuevo_empleado_marisela",
+    "employee_key": "3 Marisela",
     "password": "0123456789",
     "rol": "doctor"
   }

@@ -6,9 +6,8 @@ from Backend.Features.dtos.eventdto import EventDto
 class ListEventCommandHandler:
     def __init__(self, command: ListEventsCommand):
         self.command = command
-
-    context = Context()
-    manager = context.get_repo_date_manager()
+        self.context = Context()
+        self.manager = self.context.get_repo_date_manager()
 
     def execute(self) -> list[EventDto]:
         events = self.manager.get_all()

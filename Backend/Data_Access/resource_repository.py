@@ -4,7 +4,7 @@ from constants import SPENDABLE
 
 class ResourceRepository:
     def __init__(self, resource_list: dict[str, Resource]={}):
-        self.resource_list : dict[int, Resource] = resource_list
+        self.resource_list : dict[str, Resource] = resource_list
         self.count: int = len(resource_list)
 
 
@@ -31,6 +31,8 @@ class ResourceRepository:
             resource = self.get_by_id(resorces_id[i])
             if resource is not None:
                 resource.count += count[i]
+                if resource.count < 0:
+                    resource.count = 0
 
     def change_state(self, id: int, new_state: str) -> None:
         item = self.get_by_id(id)

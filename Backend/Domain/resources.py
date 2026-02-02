@@ -9,6 +9,7 @@ class Resource:
 
         self.id: int = id
         self.name: str = name
+        self.key = f"{id} {name}"
         self.use_with: list[int] = use_with
         self.dont_use_with: list[int] = dont_use_with
         self.use_state: str = use_state  
@@ -51,6 +52,7 @@ class Resource:
         return {
             "id": self.id,
             "name": self.name,
+            "key": self.key,
             "use_with": self.use_with,
             "dont_use_with": self.dont_use_with,
             "use_state": self.use_state,

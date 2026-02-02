@@ -7,8 +7,6 @@ from Backend.Data_Access.resource_repository import ResourceRepository
 from Backend.Data_Access.users_repository import UsersRepository
 from constants import *
 
-# todo hacer el predicate de los filtred
-
 # TODO: arreglar rutas y revisar metodos
 # PATH = "..\DataBase"
 
