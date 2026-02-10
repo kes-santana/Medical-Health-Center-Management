@@ -29,24 +29,40 @@ class Employee():
       
         else: return datetime.strptime("30", "%M").time()
     
-    def set_vacations(self, start_vacation: date, end_vacation: date) -> None:
+    def set_vacations(self, start_vacation: date, end_vacation: date, list_of_events) -> None:
+        today = datetime.now().date()
+        if start_vacation <= today:
+            raise Exception("Rango de vacaciones no valido. Debe agregar vacciones en una fecha" \
+            " posterior a la de hoy")
+        
         if start_vacation <= end_vacation:
-            if self.vacations:
-                actual_start = self.vacations[0]
-                actual_end = self.vacations[1]
-                if (start_vacation >= actual_start and end_vacation >= actual_end):
-                    self.vacations[0]= start_vacation
-                    self.vacations[1]= end_vacation
-                    return
+            
+            for day, events in list_of_events.items():
                 
-                raise Exception("Rango de vacaciones no valido, revise las vacaciones ya existentes")
+                if day < start_vacation or  day > end_vacation:
+                    continue
+
+                if str(self.id) in events.keys():
+                    raise Exception("El empleado tiene citas programadas para ese dia." \
+                    "Revise la lista de eventos del empleado y coordine nuevas vacaciones")                      
+
+            if self.vacations:
+                # actual_start = self.vacations[0]
+                # actual_end = self.vacations[1]
+                # if (start_vacation >= actual_start and end_vacation >= actual_end):
+                self.vacations[0]= start_vacation
+                self.vacations[1]= end_vacation
+                return
+                
+                # raise Exception("Rango de vacaciones no valido, revise las vacaciones ya existentes")
             
             else: 
                 self.vacations.append(start_vacation)
                 self.vacations.append(end_vacation)
                 return
         
-        raise Exception("Rango de vacaciones no valido")
+        raise Exception("Rango de vacaciones no valido. El inicio  de las" \
+        " vacaciones debe ser antes que el fin de estas")
         
 
     def to_dict(self) -> dict:
@@ -72,38 +88,4 @@ class Employee():
             is_doctor=data["is_doctor"],
             on_vacations=data["on_vacations"],
             vacations=vacations
-            )
-    
-    
-class Doctor(Employee):
-    """Representa los doctores"""
-
-    def __init__(self, id: int, name: str, experience: dict[str: int], especiality: str,
-                on_vacations: bool=False, vacations: list[datetime.date]=None):
-        """Inicializa la clase Doctor"""
-
-        super().__init__(id, name, experience, is_doctor=True, on_vacations=on_vacations, vacations=vacations)
-        self.especiality = especiality
-        # self.intelligence = intelligence
-        
-    def to_dict(self) -> dict:
-        s = super().to_dict()
-        s.update({
-            "especiality": self.especiality
-            # "intelligence": self.intelligence
-        })
-        return s
-    
-    @staticmethod
-    def from_dict(data: dict) -> "Doctor":
-        vacations=[datetime.datetime.strptime(v, "%Y-%M-%d") for v in data[vacations]]
-        return Doctor(
-            id=data["id"],
-            name=data["name"],
-            experience=data["experience"],
-            is_doctor=data["is_doctor"],
-            on_vacations=data["on_vacations"],
-            vacations=vacations,
-            especiality=data["especiality"],
-
             )

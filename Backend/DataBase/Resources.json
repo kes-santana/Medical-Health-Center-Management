@@ -1,0 +1,99 @@
+{
+  "1": {
+    "id": 1,
+    "name": "Lampara",
+    "key": "1 Lampara",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 33,
+    "is_espendable": false
+  },
+  "2": {
+    "id": 2,
+    "name": "Laptop",
+    "key": "2 Laptop",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 22,
+    "is_espendable": false
+  },
+  "3": {
+    "id": 3,
+    "name": "Jeringas",
+    "key": "3 Jeringas",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 51,
+    "is_espendable": true
+  },
+  "4": {
+    "id": 4,
+    "name": "Nasobucos",
+    "key": "4 Nasobucos",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 81,
+    "is_espendable": true
+  },
+  "5": {
+    "id": 5,
+    "name": "Tijeras de Cirugia",
+    "key": "5 Tijeras de Cirugia",
+    "use_with": [
+      4,
+      2
+    ],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 101,
+    "is_espendable": false
+  },
+  "6": {
+    "id": 6,
+    "name": "Estetoscopio",
+    "key": "6 Estetoscopio",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 20,
+    "is_espendable": false
+  },
+  "7": {
+    "id": 7,
+    "name": "Medidor de presion",
+    "key": "7 Medidor de presion",
+    "use_with": [
+      6
+    ],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 12,
+    "is_espendable": false
+  },
+  "8": {
+    "id": 8,
+    "name": "Gasa",
+    "key": "8 Gasa",
+    "use_with": [
+      5
+    ],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 50,
+    "is_espendable": true
+  },
+  "9": {
+    "id": 9,
+    "name": "Analgesicos",
+    "key": "9 Analgesicos",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 98,
+    "is_espendable": true
+  }
+}

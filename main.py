@@ -36,9 +36,9 @@
 # -------------------------------------------------
 
 # from Backend.Endpoins.change_state_endpoint import ChangeStateEndpiont
-# from constants import SPENDABLE
+# from constants import RESOURCES
 # endp=ChangeStateEndpiont()
-# endp.excecute(1, "disponible", SPENDABLE)
+# endp.excecute(1, "disponible", RESOURCES)
 # --------------------------------------------------
 
 from datetime import datetime

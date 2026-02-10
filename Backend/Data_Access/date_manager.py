@@ -39,8 +39,9 @@ class DateManager:
             for e in events:
                 if not filter(e):
                     events.remove(e)
-        return events
-
+        events.sort(key= lambda x: x.date_time)
+        return self.order_by_state(events)
+    
     def get_by_id(self, id: int): 
         events: list[MedicalDate] = self.get_all()
         for event in events:
@@ -60,10 +61,29 @@ class DateManager:
         event.state = new_state
         return 
     
+    def order_by_state(self, events: list[MedicalDate]):
+        active_evnt = []
+        finished_evnt = []
+        canceled_evnt = []
+
+        for e in events:
+            if e.state == "active":
+                active_evnt.append(e)
+            elif e.state == "finished":
+                finished_evnt.append(e)
+            else: canceled_evnt.append(e)
+        
+        evnts = []
+        evnts.extend(active_evnt)
+        evnts.extend(finished_evnt)
+        evnts.extend(canceled_evnt)
+        return evnts
+
+    
     @staticmethod
     def from_dict(data: list, context) -> "DateManager":
+        
         # Cargar del JSON
-
         actual_id = data[0]
 
         # Reconstruir estructura
@@ -92,50 +112,3 @@ class DateManager:
             for fecha, doctores in self.list_of_events.items()
         }]
         return data
-
-
-
-
-
-
-
-
-
-
-# a= datetime.time(0,0)
-# print(a)
-
-# print(datetime.datetime.strptime("2025-Oct-11","%Y-%b-%d").date().strftime("%Y-%b-%d"))
-# print(calendar.month(2025,10))
-# date= datetime.date(2025,10,20)
-# print(holidays.country_holidays("FR", years=2025).get_closest_holiday(date))
-# print(datetime.datetime.now())
-# class A:
-#     def __init__(self):
-#         pass
-    
-#     lista=[]
-#     a=10
-
-#     def add_to_list(self):
-#         x=B(self.a)
-#         self.lista.append(x)
-
-# class B: 
-#     def __init__(self,num):
-#         self.num=num   
-
-# clase1=A()
-# clase1.add_to_list()
-# clase1.a=5
-# clase2=clase1.lista.pop()
-# clase1.add_to_list()
-# clase3=clase1.lista.pop()
-# print(clase2.num)
-# print(clase3.num)
-# appointment_date: datetime.date = datetime.datetime.strptime("2025/Oct/12","%Y/%b/%d").date()
-# actual_datetime = datetime.datetime.now()
-# actual_date = actual_datetime.date() 
-# print(type(appointment_date)==type(actual_date))
-# print(type(appointment_date))
-# print(type(actual_date))

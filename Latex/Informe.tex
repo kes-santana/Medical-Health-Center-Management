@@ -1,0 +1,135 @@
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+
+\title{Medical Health Center Management}
+\author{}
+\date{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\section*{Medical-Health-Center-Management}
+	
+	El gestor de eventos \textbf{Medical Health Center Management} es un sistema desarrollado para clínicas de salud con el objetivo de optimizar el proceso de agendamiento de citas, reduciendo tiempos de espera y mejorando la organización de la información. Asimismo, permite manejar la disponibilidad de recursos sanitarios y el método de empleo de estos, facilitando a doctores la gestión de los mismos.
+	
+	\section{Instalación y tecnologías}
+	
+	El proyecto está en su totalidad desarrollado en \textit{Python} (versión 3.13.2) y se recomienda el uso de un \textit{entorno virtual}.
+	
+	\subsection{Requerimientos}
+	
+	Usa bibliotecas externas como \textit{streamlit} y \textit{plotly.express} las cuales se pueden instalar mediante los comandos:
+	
+	\begin{itemize}
+		\item \texttt{pip install streamlit}
+		\item \texttt{pip install plotly.express}
+	\end{itemize}
+	
+	Cumplidos estos requerimientos, para ejecutar el programa es necesario abrir una terminal y ejecutar los siguientes comandos:
+	
+	\begin{itemize}
+		\item \texttt{Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass}
+		\item \texttt{.\textbackslash run.ps1}
+	\end{itemize}
+	
+	Este último se encargará de ejecutar un script PowerShell \texttt{run.ps1} que activará el entorno virtual y ejecutará el script \texttt{app.py}, dando inicio al programa.
+	
+	\section{Diseño}
+	
+	Se ha escogido el sector de la salud dada la problemática que presentan varios de estos centros públicos: la mala optimización del tiempo y los recursos, la cual afecta directamente a los pacientes creando tiempos de espera más largos y carencias para tratar los padecimientos de estos. 
+	
+	\subsection{Eventos}
+	
+	Se gestionan citas médicas que abarcan un cierto espacio de tiempo y utilizan los recursos almacenados.
+	
+	\subsection{Recursos}
+	
+	Los recursos manejados son los que se utilizan en una consulta médica estandar, lo que conlleva a que se cumplan determinadas condiciones para su uso. 
+	
+	\subsubsection{Cantidades}
+	
+	Para  que un recurso pueda usarse lo principal es que en el almacén exista la cantidad solicitada de dicho recurso. Se manejan también los casos particulares de los recursos reutilizables.
+	
+	\subsubsection{Restricción de Co-requisito o Inclusión}
+	
+	Exieten recursos que para ser usados en una cita es necesario usarlos junto con otros específicos.
+	
+	\subsubsection{Restricción de Exclusión Mutua}
+	
+	Exieten recursos que para ser usados en una cita es necesario que en la misma no se usen otros recursos específicos por seguridad o incompatbilidad.
+	
+	
+	\section{Implementaciones}
+	
+	Se pone a disposición del usuario gran variedad de herramientas para facilitar la gestión de eventos, siendo parte fundamental de esto evitar colisiones entre horarios, buscar espacios para citas y el tratado de urgencias, así como la gestión de los recursos disponibles y la disponibilidad de los doctores.
+	
+	\subsection{Eventos}
+	Se ha implementado un sistema capaz de agendar nuevas citas médicas, listar las ya existentes, ver detalles sobre una cita específica y cambiar el estado de estas.
+	Se ha tenido en cuenta la posibilidad de agendar citas para el primer espacio disponible en el día así como la posibilidad de agendar una cita en el primer espacio libre en la agenda general de un doctor determinado.
+	además se manejan conflictos como la ausencia del doctor solicitado para el día de la consulta.
+	
+	El sistema trata de forma diferenciada citas comunes y urgentes, dándole prioridad a las últimas y desplazando hacia horas posteriores las comunes que se solapen en el intervalo de tiempo.
+	
+	\subsection{Recursos}
+	Dada la importancia de los recursos para una clínica se implementaron herramientas para crear nuevos recursos, además de listar y ver detalles de los ya existentes. Se agregó la posibilidad de surtir recursos al almacén asi como  la de añadir y eliminar restricciones sobre los mismos. 
+	
+	\subsection{Empleados}
+	
+	Atendiendo a la importancia de los doctores en el sistema de salud, se implementaron medidas para contratar nuevos doctores, listar a los existentes y ver información detallada sobre cada uno de estos.
+	
+	\subsection{Otras funciones}
+	
+	Además, se agregaron las siguientes funcionalidades:
+	
+	\begin{itemize}
+	\item El sistema provee a cada empleado de una cuenta personal para tratar sus citas, dando la posibilidad de administrar la información de su perfil de usuario.
+	
+	\item Se implementó la posibilidad de asignar a cada empleado un nuevo rol en la clínica, dándole a estos mayores facultades en el sistema de administración.
+
+	\item El sistema dispone la posibilidad de graficar la cantidad de citas diarias y la cantidad de pacientes que posee un empleado en un transcurso de tiempo determinado.
+\end{itemize}
+	
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\documentclass[]{article}
+
+%opening
+\title{}
+\author{}
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		
+	\end{abstract}
+	
+\part{\part{title}}	\section{}
+	
+\end{document}

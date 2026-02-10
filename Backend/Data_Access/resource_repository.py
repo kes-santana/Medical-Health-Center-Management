@@ -1,6 +1,5 @@
 
 from Backend.Domain.resources import Resource
-from constants import SPENDABLE
 
 class ResourceRepository:
     def __init__(self, resource_list: dict[str, Resource]={}):
@@ -44,6 +43,15 @@ class ResourceRepository:
         
         raise Exception(f'No se encontro recurso con ID: "{id}"')
         
+    def load_resources_names(self):
+        resources_names = []
+        for r in self.resource_list.values():
+            if r.count > 0:
+                key_split = r.key.split(" ")
+                resources_names.append(f"{key_split[0]} - {key_split[1]}")
+        
+        return resources_names
+
     @staticmethod
     def from_dict(data: dict) -> "ResourceRepository":
         # Cargar del JSON

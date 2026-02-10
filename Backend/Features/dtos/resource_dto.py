@@ -8,6 +8,8 @@ class ResourceDto:
         self.use_state: str
         self.count: int
         self.is_espendable: bool
+        self.use_with: list[str]
+        self.dont_use_with: list[str]
 
     @staticmethod
     def to_resource_dto(resource: Resource) -> "ResourceDto":
@@ -17,6 +19,8 @@ class ResourceDto:
         dto.use_state = resource.use_state
         dto.count = resource.count
         dto.is_espendable = resource.is_espendable
+        dto.use_with = [r for r in resource.use_with]
+        dto.dont_use_with = [r for r in resource.dont_use_with]
         return dto
     
     def __str__(self):

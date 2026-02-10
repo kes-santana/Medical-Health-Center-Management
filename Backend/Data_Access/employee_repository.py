@@ -26,6 +26,12 @@ class EmployeeRepository:
         
         raise Exception(f'El empleado de ID: "{id}" no se encuentra en la base de datos')
 
+    def load_employees_names(self):
+        employees_names = []
+        for e in self.employee_list.values():
+            employees_names.append(e.key)
+        return employees_names
+
     @staticmethod
     def from_dict(data: dict) -> "EmployeeRepository":
         # Cargar del JSON

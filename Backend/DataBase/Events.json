@@ -1,5 +1,5 @@
 [
-  14,
+  38,
   {
     "2026-02-03": {
       "1": [
@@ -15,7 +15,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor al Orinar"
         },
         {
@@ -30,7 +30,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor al Orinar"
         },
         {
@@ -45,7 +45,7 @@
           "resources_count": [
             10
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Rayos X"
         }
       ],
@@ -62,7 +62,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Rayos X otra vez"
         },
         {
@@ -77,7 +77,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "infarto"
         },
         {
@@ -94,8 +94,31 @@
             1,
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor garganta"
+        },
+        {
+          "id": 14,
+          "date_time": "2026-02-03T11:00:00",
+          "owns_name": "Susy",
+          "employee": 2,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            5,
+            2,
+            4,
+            3
+          ],
+          "resources_count": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "analisis optico"
         }
       ],
       "3": [
@@ -111,7 +134,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "canceled",
           "appointment_name": "Migrana"
         },
         {
@@ -126,7 +149,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Migrana"
         },
         {
@@ -141,7 +164,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Migrana"
         },
         {
@@ -156,7 +179,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Migrana"
         },
         {
@@ -171,31 +194,8 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Jaqueca"
-        }
-      ]
-    },
-    "2026-02-04": {
-      "2": [
-        {
-          "id": 5,
-          "date_time": "2026-02-04T10:00:00",
-          "owns_name": "Diana",
-          "employee": 2,
-          "is_urgency": false,
-          "necesary_resources": [
-            5,
-            4,
-            3
-          ],
-          "resources_count": [
-            1,
-            10,
-            10
-          ],
-          "state": "active",
-          "appointment_name": "Cirugia Plastica"
         }
       ]
     },
@@ -211,6 +211,409 @@
           "resources_count": [],
           "state": "active",
           "appointment_name": "Ceguera"
+        }
+      ]
+    },
+    "2026-02-12": {
+      "3": [
+        {
+          "id": 15,
+          "date_time": "2026-02-12T16:00:00",
+          "owns_name": "Alice",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "tomografia"
+        },
+        {
+          "id": 17,
+          "date_time": "2026-02-12T09:00:00",
+          "owns_name": "Diana",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Rayos x"
+        },
+        {
+          "id": 18,
+          "date_time": "2026-02-12T09:25:00",
+          "owns_name": "Diana",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Rayos x otra vez"
+        },
+        {
+          "id": 19,
+          "date_time": "2026-02-12T10:00:00",
+          "owns_name": "Diego",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            2,
+            4
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Revision de cornea"
+        },
+        {
+          "id": 20,
+          "date_time": "2026-02-12T10:25:00",
+          "owns_name": "Andrew",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            2,
+            4
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Revision de cornea"
+        }
+      ]
+    },
+    "2026-02-19": {
+      "2": [
+        {
+          "id": 16,
+          "date_time": "2026-02-19T10:00:00",
+          "owns_name": "Ash",
+          "employee": 2,
+          "is_urgency": false,
+          "necesary_resources": [
+            4
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "cortada domestica"
+        }
+      ],
+      "6": [
+        {
+          "id": 24,
+          "date_time": "2026-02-19T11:08:00",
+          "owns_name": "Carlos",
+          "employee": 6,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Fractura de brazo"
+        }
+      ]
+    },
+    "2026-02-17": {
+      "3": [
+        {
+          "id": 21,
+          "date_time": "2026-02-17T11:24:00",
+          "owns_name": "Amelia",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            2,
+            4
+          ],
+          "resources_count": [
+            1,
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor de garganta"
+        }
+      ]
+    },
+    "2026-02-25": {
+      "3": [
+        {
+          "id": 22,
+          "date_time": "2026-02-25T12:00:00",
+          "owns_name": "Alex",
+          "employee": 3,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            4
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor de estomago"
+        }
+      ]
+    },
+    "2026-02-09": {
+      "1": [
+        {
+          "id": 23,
+          "date_time": "2026-02-09T13:15:00",
+          "owns_name": "Marco",
+          "employee": 1,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            2
+          ],
+          "resources_count": [
+            1,
+            3
+          ],
+          "state": "active",
+          "appointment_name": "Dolor de cabeza"
+        }
+      ],
+      "9": [
+        {
+          "id": 25,
+          "date_time": "2026-02-09T11:05:00",
+          "owns_name": "Arturo",
+          "employee": 9,
+          "is_urgency": false,
+          "necesary_resources": [
+            6,
+            7
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Problemas circulatorios"
+        },
+        {
+          "id": 26,
+          "date_time": "2026-02-09T11:30:00",
+          "owns_name": "Carmen",
+          "employee": 9,
+          "is_urgency": false,
+          "necesary_resources": [
+            7,
+            2,
+            6
+          ],
+          "resources_count": [
+            1,
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Problemas cardiacos"
+        },
+        {
+          "id": 27,
+          "date_time": "2026-02-09T09:00:00",
+          "owns_name": "Ismael",
+          "employee": 9,
+          "is_urgency": true,
+          "necesary_resources": [
+            9,
+            3
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Fractura de brazo"
+        },
+        {
+          "id": 28,
+          "date_time": "2026-02-09T09:25:00",
+          "owns_name": "Sara",
+          "employee": 9,
+          "is_urgency": true,
+          "necesary_resources": [
+            1,
+            6,
+            7
+          ],
+          "resources_count": [
+            1,
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Perdida del conocimiento"
+        },
+        {
+          "id": 29,
+          "date_time": "2026-02-09T09:50:00",
+          "owns_name": "Claudia",
+          "employee": 9,
+          "is_urgency": true,
+          "necesary_resources": [
+            6,
+            7
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Deshidratacion"
+        },
+        {
+          "id": 30,
+          "date_time": "2026-02-09T10:15:00",
+          "owns_name": "Alejandro",
+          "employee": 9,
+          "is_urgency": true,
+          "necesary_resources": [
+            9
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Fiebre"
+        },
+        {
+          "id": 31,
+          "date_time": "2026-02-09T11:55:00",
+          "owns_name": "Pedro",
+          "employee": 9,
+          "is_urgency": false,
+          "necesary_resources": [],
+          "resources_count": [],
+          "state": "active",
+          "appointment_name": "Asma"
+        },
+        {
+          "id": 32,
+          "date_time": "2026-02-09T10:40:00",
+          "owns_name": "Tania",
+          "employee": 9,
+          "is_urgency": true,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "estudios completos"
+        },
+        {
+          "id": 33,
+          "date_time": "2026-02-09T12:20:00",
+          "owns_name": "Carlos",
+          "employee": 9,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            2
+          ],
+          "state": "active",
+          "appointment_name": "estudios completos"
+        }
+      ],
+      "6": [
+        {
+          "id": 34,
+          "date_time": "2026-02-09T09:00:00",
+          "owns_name": "Karen",
+          "employee": 6,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            2
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Estudio Ocular"
+        }
+      ]
+    },
+    "2026-02-11": {
+      "4": [
+        {
+          "id": 35,
+          "date_time": "2026-02-11T09:25:00",
+          "owns_name": "Hector",
+          "employee": 4,
+          "is_urgency": false,
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor de muela"
+        },
+        {
+          "id": 36,
+          "date_time": "2026-02-11T09:00:00",
+          "owns_name": "Julio",
+          "employee": 4,
+          "is_urgency": true,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor de apéndice"
+        }
+      ]
+    },
+    "2026-03-10": {
+      "7": [
+        {
+          "id": 37,
+          "date_time": "2026-03-10T14:58:00",
+          "owns_name": "Claudia",
+          "employee": 7,
+          "is_urgency": false,
+          "necesary_resources": [
+            1
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Deshidratacion"
         }
       ]
     }

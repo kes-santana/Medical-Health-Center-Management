@@ -6,24 +6,66 @@
     "password": "admin",
     "rol": "admin"
   },
-  "nuevo_empleado_miguel": {
+  "Miguel": {
     "id": 1,
-    "user_name": "nuevo_empleado_miguel",
+    "user_name": "Miguel",
     "employee_key": "1 Miguel",
     "password": "0123456789",
     "rol": "doctor"
   },
-  "nuevo_empleado_kevin": {
+  "Kevin": {
     "id": 2,
-    "user_name": "nuevo_empleado_kevin",
+    "user_name": "Kevin",
     "employee_key": "2 Kevin",
-    "password": "0123456789",
+    "password": "soy_kev",
     "rol": "doctor"
   },
   "nuevo_empleado_marisela": {
     "id": 3,
     "user_name": "nuevo_empleado_marisela",
     "employee_key": "3 Marisela",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_tom": {
+    "id": 4,
+    "user_name": "nuevo_empleado_tom",
+    "employee_key": "4 Tom",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_ariadna": {
+    "id": 5,
+    "user_name": "nuevo_empleado_ariadna",
+    "employee_key": "5 Ariadna",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_alexa": {
+    "id": 6,
+    "user_name": "nuevo_empleado_alexa",
+    "employee_key": "6 Alexa",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_jay": {
+    "id": 7,
+    "user_name": "nuevo_empleado_jay",
+    "employee_key": "7 Jay",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_park": {
+    "id": 8,
+    "user_name": "nuevo_empleado_park",
+    "employee_key": "8 Park",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_mark": {
+    "id": 9,
+    "user_name": "nuevo_empleado_mark",
+    "employee_key": "9 Mark",
     "password": "0123456789",
     "rol": "doctor"
   }

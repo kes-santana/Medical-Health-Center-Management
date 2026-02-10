@@ -6,7 +6,10 @@
     "experience": 49,
     "is_doctor": true,
     "on_vacations": false,
-    "vacations": []
+    "vacations": [
+      "2026-04-22",
+      "2026-04-28"
+    ]
   },
   "2 Kevin": {
     "id": 2,
@@ -22,6 +25,63 @@
     "name": "Marisela",
     "key": "3 Marisela",
     "experience": 39,
+    "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "4 Tom": {
+    "id": 4,
+    "name": "Tom",
+    "key": "4 Tom",
+    "experience": 26,
+    "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "5 Ariadna": {
+    "id": 5,
+    "name": "Ariadna",
+    "key": "5 Ariadna",
+    "experience": 38,
+    "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "6 Alexa": {
+    "id": 6,
+    "name": "Alexa",
+    "key": "6 Alexa",
+    "experience": 30,
+    "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "7 Jay": {
+    "id": 7,
+    "name": "Jay",
+    "key": "7 Jay",
+    "experience": 25,
+    "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "8 Park": {
+    "id": 8,
+    "name": "Park",
+    "key": "8 Park",
+    "experience": 34,
+    "is_doctor": false,
+    "on_vacations": true,
+    "vacations": [
+      "2026-02-08",
+      "2026-02-10"
+    ]
+  },
+  "9 Mark": {
+    "id": 9,
+    "name": "Mark",
+    "key": "9 Mark",
+    "experience": 35,
     "is_doctor": true,
     "on_vacations": false,
     "vacations": []

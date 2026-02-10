@@ -4,7 +4,7 @@ from datetime import datetime
 EVENTS = "Events"
 EMPLOYEES = "Employees"
 EQUIPMENT = "Equipment"
-SPENDABLE = "Spendable_Resources"
+RESOURCES = "Resources"
 USERS = "Users"
 
 OPEN_HOUR = datetime.strptime("09:00", "%H:%M").time()

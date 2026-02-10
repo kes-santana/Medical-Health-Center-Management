@@ -1,5 +1,4 @@
 """aqui se decide si se puede o no"""
-#   TODO ver si se me ocurren mas  restricciones
 
 import datetime
 
@@ -26,6 +25,9 @@ class CreateEventHandler:
     def execute(self) -> CreateEventResponse:
        
         print("Creating event")
+        if self.command.appointment_name.strip() == "" or self.command.owns_name.strip == "":
+            raise Exception("Hay espacios sin rellenar en el formulario.")
+        
         manager: DateManager = self.context.get_repo_date_manager()
         resource_repo: ResourceRepository = self.context.get_repo_resource()
         necesary_resources: list[Resource] = self.get_necesary_resources(
@@ -49,14 +51,13 @@ class CreateEventHandler:
                            asigned_date_time_auto: bool, owns_name: str, employee: Employee,
                            is_urgency: bool, necesary_resources: list[Resource], resources_count: list[int], time_auto: bool) -> MedicalDate:
             if asigned_date_time_auto:
-                appointment_date_time = self.asigned_date_time_auto_to_event(manager, employee)
+                appointment_date_time = self.asigned_date_time_auto_to_event(manager, employee, is_urgency)
 
             else:   
                 appointment_date_time = self.is_valid_date(manager, appointment_date,
                                                            appointment_time, is_urgency, employee, time_auto)
             
             self.employee_disponibility(employee, appointment_date)
-            # self.convert_resources(necesary_resources)
             self.validate_necesary_resources(necesary_resources, resources_count)
             self.find_who_use_a_spendable_resource(necesary_resources, appointment_date_time, (appointment_date_time + datetime.timedelta(hours=employee.productivity().hour, minutes=employee.productivity().minute)).time(), manager)
             self.validate_reusable_resources(manager, appointment_date_time, necesary_resources, resources_count, employee)
@@ -67,8 +68,8 @@ class CreateEventHandler:
 
     def employee_disponibility(self, employee: Employee, appointment_date: datetime.date) -> None:
         if employee.vacations:
-            if employee.vacations[0] < appointment_date < employee.vacations[1]:
-                raise Exception("Empleado no disponible")
+            if employee.vacations[0] <= appointment_date <= employee.vacations[1]:
+                raise Exception("Empleado no disponible. Esta de vacaciones.")
 
     def get_necesary_resources(self, necesary_resources: list[int],
                                resource_list: dict[str, Resource]) -> list[Resource]:
@@ -202,8 +203,7 @@ class CreateEventHandler:
         if appointment_date == self.actual_date:
                 raise Exception("No se pueden agendar citas para el mismo dia que se crean")
         
-        if appointment_date.weekday() in [5, 6]: # or appointment_date in holidays.CountryHoliday("US", appointment_date.year):
-            # 5 o 6 == saturday or sunday
+        if appointment_date.weekday() in [5, 6]:
             raise Exception("Dia no laborable")
         
         if appointment_date < self.actual_date:
@@ -231,6 +231,9 @@ class CreateEventHandler:
         # Ordenar eventos por hora
         eventos.sort(key=lambda e: e.date_time)
 
+        # como no se si el primer evento del dia es a la hora de inicio fuerzo que el nuevo se a esa
+        # hora, si hay excepcion entonces va para el primer evento ya que si no se pudo es que no 
+        # alcanzo el tiempo libre 
         try:
             self.is_on_time(OPEN_HOUR, employee_events)
             return OPEN_HOUR
@@ -321,8 +324,8 @@ class CreateEventHandler:
         for e in eventos:
             if e.is_urgency:
                 new_date_time = e.date_time + datetime.timedelta(hours=e.duration.hour, minutes=e.duration.minute)
-                end_new_date = new_date_time + datetime.timedelta(hours=eventos[0].duration.hour,
-                                                        minutes=eventos[0].duration.minute)
+                end_new_date = new_date_time + datetime.timedelta(hours=e.duration.hour,
+                                                        minutes=e.duration.minute)
                 continue
             else:
                 index = eventos.index(e)
@@ -333,19 +336,20 @@ class CreateEventHandler:
         
         self.arreglar_solapamientos(index, new_date_time, end_new_date, eventos)
         return new_date_time.time()
-# todo revisar
+
     def arreglar_solapamientos(self, index: int, new_date_time: datetime.datetime,
                                 end_new_date: datetime.datetime, eventos: list[MedicalDate]):
        
         for e in range(index, len(eventos)):
             if new_date_time <= eventos[e].date_time < end_new_date:
                 eventos[e].date_time = end_new_date
-                new_date_time = end_new_date
-                end_new_date = end_new_date + datetime.timedelta(hours=eventos[e].duration.hour,
-                                                        minutes=eventos[e].duration.minute)
-            break
+                new_date_time = end_new_date 
+                end_new_date = new_date_time + datetime.timedelta(hours=eventos[e].duration.hour,
+                                                      minutes=eventos[e].duration.minute)
+            else:
+                break
 
-    def asigned_date_time_auto_to_event(self, manager: DateManager, employee: Employee) -> datetime.datetime:
+    def asigned_date_time_auto_to_event(self, manager: DateManager, employee: Employee, is_urgency: bool) -> datetime.datetime:
         tomorrow = self.actual_date + datetime.timedelta(days=1)
         while True:
             
@@ -354,7 +358,11 @@ class CreateEventHandler:
                 return datetime.datetime.combine(tomorrow, OPEN_HOUR)
            
             try:
-                time = self.buscar_hora(events)
+                if is_urgency:
+                    time = self.proces_urgency(events)
+                else:
+                    time = self.buscar_hora(events)
+
             except:
                 tomorrow += datetime.timedelta(days=1)
                 continue

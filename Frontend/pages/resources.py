@@ -1,13 +1,8 @@
 import streamlit as st
 
-from Frontend.app import ALL_REC
-from Frontend.bridge import agregar_no_uso, agregar_uso, crear_recurso, listar_recursos, remover_no_uso, remover_uso, surtir_alamcen
-from Frontend.front_utils import clean_resource_list, search_id_by_name
+from Frontend.bridge import agregar_no_uso, agregar_uso, crear_recurso, listar_recursos, obtener_recurso, remover_no_uso, remover_uso, surtir_alamcen
+from Frontend.front_utils import search_id_by_name
 
-if "create_resource" not in st.session_state:
-    st.session_state.create_resource = False
-if "list_resources" not in st.session_state:
-    st.session_state.list_resources = False
 if "remove_use_with" not in st.session_state:
     st.session_state.remove_use_with = False
 if "remove_dont_use_with" not in st.session_state:
@@ -28,12 +23,10 @@ if "suplayed_resources_count" not in st.session_state:
 
 
 st.header("Gestion de Recursos")
-tab_add, tab_list, tab_almacen, tab_options = st.tabs(["Agregar", "Listar", "Almacen", "Opciones"])
+tab_add, tab_get, tab_list, tab_almacen, tab_options = st.tabs(["Agregar", "Ver Detalles", "Listar", "Almacén", "Opciones"])
 
 with tab_add:
-    st.header("Crear Nuevo Recurso", divider="blue", width="content")
-
-#Todo: en los "dont_use" lo dejo asi o quito de las opciones los que ya esten en los "use" 
+    st.header("Crear Nuevo Recurso", divider="blue", width="content") 
 
     with st.form("create_resource_form"):
         st.subheader("Crear Recurso")
@@ -41,8 +34,8 @@ with tab_add:
         resource_name = st.text_input("Resource Name")
         resource_count = st.number_input("Count", min_value=1)
         resource_is_spendable =st.checkbox("Is Spendable")
-        resource_use_with = st.multiselect("Recursos con los que se debe usar", options=ALL_REC)
-        resource_dont_use_with = st.multiselect("Recursos con los que no se debe usar", options=ALL_REC)
+        resource_use_with = st.multiselect("Recursos con los que se debe usar", options=st.session_state.all_rec)
+        resource_dont_use_with = st.multiselect("Recursos con los que no se debe usar", options=st.session_state.all_rec)
         
         submitted_create_rec = st.form_submit_button("Crear", use_container_width=True)
         
@@ -56,8 +49,25 @@ with tab_add:
             except Exception as e:
                 st.error(e)
 
+with tab_get:
+    
+    st.header("Detalles de Recurso", divider=True, width="content")
+    with st.form("get_resource_form"):
+        st.subheader("Obtener Recurso")
+        id = st.number_input("ID del recurso", min_value=1)
+        print(f"Id = {id}")
+    
+        submitted_get_resource = st.form_submit_button("Buscar")
+        
+        if submitted_get_resource:
+            try:
+                recurso = obtener_recurso(id)
+                st.dataframe(recurso, height=80)
+            except Exception as e:
+                st.error(e)
+
 with tab_list:
-    st.header("Listado de Recursos", divider=True, width="content")
+    st.header("Listado de Recursos", divider="blue", width="content")
     try:
         listed_resources = listar_recursos()
         st.dataframe(listed_resources)
@@ -80,8 +90,8 @@ with tab_options:
                 with st.form("set_use_with_form"):
                     st.subheader("Agregar uso de un recurso respecto a otro")
 
-                    recurso_dependiente = st.selectbox("Recurso dependiente", options=ALL_REC)
-                    recurso_restringido = st.selectbox("Recurso a restringir", options=clean_resource_list(ALL_REC,[recurso_dependiente]))
+                    recurso_dependiente = st.selectbox("Recurso dependiente", options=st.session_state.all_rec)
+                    recurso_restringido = st.selectbox("Recurso a restringir", st.session_state.all_rec)
 
                     submitted_set_u_w = st.form_submit_button("Aceptar")
                 
@@ -101,8 +111,8 @@ with tab_options:
                 with st.form("set_dont_use_with_form"):
                     st.subheader("Agregar restriccion de un recurso respecto a otro")
 
-                    recurso_dependiente = st.selectbox("Recurso dependiente", options=ALL_REC)
-                    recurso_restringido = st.selectbox("Recurso a restringir", options=clean_resource_list(ALL_REC,[recurso_dependiente]))
+                    recurso_dependiente = st.selectbox("Recurso dependiente", options=st.session_state.all_rec)
+                    recurso_restringido = st.selectbox("Recurso a restringir", options=st.session_state.all_rec)
 
                     submitted_set_d_u_w = st.form_submit_button("Aceptar")
                     
@@ -127,8 +137,8 @@ with tab_options:
                 with st.form("remove_use_with_form"):
                     st.subheader("Remover uso de un recurso respecto a otro")
 
-                    recurso_dependiente = st.selectbox("Recurso dependiente", options=ALL_REC)
-                    recurso_restringido = st.selectbox("Recurso restringido", options=clean_resource_list(ALL_REC,[recurso_dependiente]))
+                    recurso_dependiente = st.selectbox("Recurso dependiente", options=st.session_state.all_rec)
+                    recurso_restringido = st.selectbox("Recurso restringido", options=st.session_state.all_rec)
 
                     submitted_remove_u_w = st.form_submit_button("Aceptar")
                     
@@ -148,8 +158,8 @@ with tab_options:
                 with st.form("remove_dont_use_with_form"):
                     st.subheader("Remover restriccion de un recurso respecto a otro")
 
-                    recurso_dependiente = st.selectbox("Recurso dependiente", options=ALL_REC)
-                    recurso_restringido = st.selectbox("Recurso restringido", options=clean_resource_list(ALL_REC,[recurso_dependiente]))
+                    recurso_dependiente = st.selectbox("Recurso dependiente", options=st.session_state.all_rec)
+                    recurso_restringido = st.selectbox("Recurso restringido", options=st.session_state.all_rec)
 
                     submitted_remove_d_u_w = st.form_submit_button("Aceptar")
                 
@@ -168,28 +178,32 @@ with tab_almacen:
     with st.form("suply_storehouse_form"):
         st.subheader("Formulario de Recursos a Surtir")
 
-        suplayed_rec = st.selectbox("Recurso a Surtir", options=clean_resource_list(ALL_REC, st.session_state.suplayed_resources))
+        suplayed_rec = st.selectbox("Recurso a Surtir", options=st.session_state.all_rec)
         suplayed_rec_count = st.number_input("Count", value=0)
     
-        submitted_suply = st.form_submit_button("Agregar Otro", use_container_width=True)
+        submitted_suply = st.form_submit_button("Agregar", use_container_width=True)
         print(suplayed_rec)
 
         if submitted_suply:
             if suplayed_rec not in st.session_state.suplayed_resources:
                 st.session_state.suplayed_resources.append(suplayed_rec)
                 st.session_state.suplayed_resources_count.append(suplayed_rec_count)
-                st.write(st.session_state.suplayed_resources)
-                st.write(st.session_state.suplayed_resources_count)
+    
+    with st.container(border=True):
+        if st.button("Show info", use_container_width=True):
+            st.write("Recursos a surtir:")
+            for r in range(len(st.session_state.suplayed_resources)):
+                st.write(f"{st.session_state.suplayed_resources[r]}: {st.session_state.suplayed_resources_count[r]}")
+         
+        if st.button("Surtir", use_container_width=True):
+            st.session_state.suplayed_resources_id = search_id_by_name(st.session_state.suplayed_resources)
+            try:
+                surtir_alamcen(st.session_state.suplayed_resources_id, st.session_state.suplayed_resources_count)
                 
-    if st.button("Surtir", use_container_width=True):
-        st.session_state.suplayed_resources_id = search_id_by_name(st.session_state.suplayed_resources)
-        try:
-            surtir_alamcen(st.session_state.suplayed_resources_id, st.session_state.suplayed_resources_count)
-            
-            st.session_state.suplayed_resources.clear()
-            st.session_state.suplayed_resources_count.clear()
-            st.session_state.suplayed_resources_id.clear()
+                st.session_state.suplayed_resources.clear()
+                st.session_state.suplayed_resources_count.clear()
+                st.session_state.suplayed_resources_id.clear()
 
-            st.success("Se ha surtido el almacen con exito")
-        except Exception as e:
-            st.error(e)
+                st.success("Se ha surtido el almacen con exito")
+            except Exception as e:
+                st.error(e)

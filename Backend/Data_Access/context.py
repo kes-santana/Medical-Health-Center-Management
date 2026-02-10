@@ -22,7 +22,7 @@ class Context:
        elif type(repo) ==  EmployeeRepository:
            name_repo = EMPLOYEES
        elif type(repo) ==  ResourceRepository:
-            name_repo = SPENDABLE
+            name_repo = RESOURCES
        else: 
            name_repo = USERS
            
@@ -31,10 +31,14 @@ class Context:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
     def _validate_json_size(self, name_repo: str):
-        root = os.path.join(
-            r"C:\Users\Kevin Emilio\Programación\Python\Projects\Medical-Health-Center-Management\Backend\DataBase",
-            f"{name_repo}.json"
-        )
+        # Carpeta actual donde está este archivo (Context.py)
+        base_dir = os.path.dirname(__file__) 
+        # Subir un nivel y entrar a DataBase
+        db_path = os.path.join(base_dir, "..", "DataBase") 
+        # Normalizar la ruta (quita .. y convierte a absoluta)
+        db_path = os.path.abspath(db_path) 
+
+        root = os.path.join(db_path, f"{name_repo}.json") 
         return root, os.path.getsize(root) == 0
     
     def _validate_content(self, root: str) -> dict:
@@ -54,7 +58,7 @@ class Context:
         return DateManager.from_dict(json_data, self)
     
     def get_repo_resource(self) -> ResourceRepository:
-        root, size_equal_zero = self._validate_json_size(SPENDABLE)
+        root, size_equal_zero = self._validate_json_size(RESOURCES)
         if size_equal_zero:
             return ResourceRepository({})
         data = self._validate_content(root)
