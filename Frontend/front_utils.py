@@ -3,10 +3,10 @@ import os
 import json
 from pathlib import Path
 
-from Backend.Data_Access.date_manager import DateManager
-from Backend.Data_Access.employee_repository import EmployeeRepository
-from Backend.Data_Access.resource_repository import ResourceRepository
-from Backend.Data_Access.users_repository import UsersRepository
+from backend.data_access.date_manager import DateManager
+from backend.data_access.employee_repository import EmployeeRepository
+from backend.data_access.resource_repository import ResourceRepository
+from backend.data_access.users_repository import UsersRepository
 from constants import EVENTS, RESOURCES, EMPLOYEES, USERS
 
 def get_user_info():
@@ -70,7 +70,7 @@ def validate_json_size(name_repo: str):
     # Carpeta actual donde está app.py (Frontend)
     base_dir = os.path.dirname(__file__) 
     # Subir un nivel (Proyecto) y entrar a Backend/DataBase 
-    db_path = os.path.abspath(os.path.join(base_dir, "..", "Backend", "DataBase"))
+    db_path = os.path.abspath(os.path.join(base_dir, "..", "backend", "data_base"))
     # Construir la ruta al archivo JSON 
     root = os.path.join(db_path, f"{name_repo}.json")
     return str(root), os.path.getsize(root) == 0

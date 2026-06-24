@@ -1,6 +1,6 @@
-from Backend.Features.Events.Post.create_event_command import CreateEventCommand
-from Backend.Features.Events.Post.create_event_command_handler import CreateEventHandler
-from Backend.Features.Events.Post.create_event_response import CreateEventResponse
+from backend.features.events.post.create_event_command import CreateEventCommand
+from backend.features.events.post.create_event_command_handler import CreateEventHandler
+from backend.features.events.post.create_event_response import CreateEventResponse
 
 
 # crea un command, crea un hadle y llama un handle.execute(command_creado)

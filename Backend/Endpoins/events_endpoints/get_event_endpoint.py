@@ -1,6 +1,6 @@
 
-from Backend.Features.Events.Get.get_event_command import GetEventCommand
-from Backend.Features.Events.Get.get_event_command_handler import GetEventHandler
+from backend.features.events.get.get_event_command import GetEventCommand
+from backend.features.events.get.get_event_command_handler import GetEventHandler
 
 
 class GetEventEndpoint:

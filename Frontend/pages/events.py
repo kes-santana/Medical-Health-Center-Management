@@ -1,7 +1,7 @@
 import streamlit as st
 
-from Frontend.app import ROL, USER_KEY
-from Frontend.bridge import cambiar_estado_de_evento, guardar_evento, listar_eventos, obtener_evento
+from frontend.app import ROL, USER_KEY
+from frontend.bridge import cambiar_estado_de_evento, guardar_evento, listar_eventos, obtener_evento
 
 if "rec_form_for_event" not in st.session_state:
     st.session_state.rec_form_for_event = False

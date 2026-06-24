@@ -1,6 +1,6 @@
 
-from Backend.Features.Events.List.list_events_command import ListEventsCommand
-from Backend.Features.Events.List.list_events_handler import ListEventCommandHandler
+from backend.features.events.list.list_events_command import ListEventsCommand
+from backend.features.events.list.list_events_handler import ListEventCommandHandler
 
 
 class ListEventEndpoint:

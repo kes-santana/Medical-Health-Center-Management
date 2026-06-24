@@ -71,10 +71,10 @@
     "key": "8 Park",
     "experience": 34,
     "is_doctor": false,
-    "on_vacations": true,
+    "on_vacations": false,
     "vacations": [
-      "2026-02-08",
-      "2026-02-10"
+      "2026-07-06",
+      "2026-07-10"
     ]
   },
   "9 Mark": {
@@ -83,6 +83,15 @@
     "key": "9 Mark",
     "experience": 35,
     "is_doctor": true,
+    "on_vacations": false,
+    "vacations": []
+  },
+  "10 Amanda": {
+    "id": 10,
+    "name": "Amanda",
+    "key": "10 Amanda",
+    "experience": 25,
+    "is_doctor": false,
     "on_vacations": false,
     "vacations": []
   }

@@ -1,3 +1,16 @@
+import subprocess
+
+# Abrir CMD y activar el virtual environment (shell==True permite ejecutar comandos como en el cmd)
+# Como cada subprocess ejecuta una instancia del cmd nueva es necesario activar el venv y ejecutar el 
+# programa en el mismo subprocess
+
+subprocess.run("venv\\Scripts\\activate && streamlit run frontend\\app.py", shell=True)
+
+
+
+
+
+
 
 # from Backend.Endpoins.resources_endpoints.create_resource_endpoint import ResourceCreator
 # endppoint= ResourceCreator()
@@ -41,14 +54,14 @@
 # endp.excecute(1, "disponible", RESOURCES)
 # --------------------------------------------------
 
-from datetime import datetime
-from Backend.Endpoins.employees_endpoints.create_employee_endoint import EmployeeCreatorEndpoint
-from Backend.Endpoins.events_endpoints.create_event_endpoint import CreateEventEndpoint
-from Backend.Features.Events.Get.get_event_command import GetEventCommand
-from Backend.Features.Events.Get.get_event_command_handler import GetEventHandler
-from Backend.Features.Events.List.list_events_command import ListEventsCommand
-from Backend.Features.Events.List.list_events_handler import ListEventCommandHandler
-endpoint = CreateEventEndpoint()
+# from datetime import datetime
+# from Backend.Endpoins.employees_endpoints.create_employee_endoint import EmployeeCreatorEndpoint
+# from Backend.Endpoins.events_endpoints.create_event_endpoint import CreateEventEndpoint
+# from backend.features.Events.Get.get_event_command import GetEventCommand
+# from backend.features.Events.Get.get_event_command_handler import GetEventHandler
+# from backend.features.Events.List.list_events_command import ListEventsCommand
+# from backend.features.Events.List.list_events_handler import ListEventCommandHandler
+# endpoint = CreateEventEndpoint()
 # endpoint.excecute()
 # command = GetEventCommand(1)
 # handler = GetEventHandler(command)
@@ -59,17 +72,17 @@ endpoint = CreateEventEndpoint()
 # c = b.execute()
 # d=c
 
-endpoint.excecute(
-    date= "2026-2-3",
-    time= "17:00:00",
-    owns_name= "Lee",
-    employee_id= 1,
-    is_urgency= False,
-    necesary_resources= [1],
-    recs_count=[1],
-    asigned_date_time_auto= False,
-    appointment_name= "Cirugia"
-)
+# endpoint.excecute(
+#     date= "2026-2-3",
+#     time= "17:00:00",
+#     owns_name= "Lee",
+#     employee_id= 1,
+#     is_urgency= False,
+#     necesary_resources= [1],
+#     recs_count=[1],
+#     asigned_date_time_auto= False,
+#     appointment_name= "Cirugia"
+# )
                                                                                     
 # endp = EmployeeCreatorEndpoint()
 # endp.excecute("Alex", 15, True)

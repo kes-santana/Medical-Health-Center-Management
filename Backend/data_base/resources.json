@@ -6,7 +6,7 @@
     "use_with": [],
     "dont_use_with": [],
     "use_state": "active",
-    "count": 33,
+    "count": 28,
     "is_espendable": false
   },
   "2": {
@@ -36,7 +36,7 @@
     "use_with": [],
     "dont_use_with": [],
     "use_state": "active",
-    "count": 81,
+    "count": 80,
     "is_espendable": true
   },
   "5": {
@@ -93,7 +93,17 @@
     "use_with": [],
     "dont_use_with": [],
     "use_state": "active",
-    "count": 98,
+    "count": 95,
+    "is_espendable": true
+  },
+  "10": {
+    "id": 10,
+    "name": "Guantes",
+    "key": "10 Guantes",
+    "use_with": [],
+    "dont_use_with": [],
+    "use_state": "active",
+    "count": 50,
     "is_espendable": true
   }
 }

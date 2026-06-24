@@ -1,7 +1,7 @@
 
-from Backend.Data_Access.context import Context
-from Backend.Features.Events.Get.get_event_command import GetEventCommand
-from Backend.Features.Events.Get.get_event_response import GetEventResponse
+from backend.data_access.context import Context
+from backend.features.events.get.get_event_command import GetEventCommand
+from backend.features.events.get.get_event_response import GetEventResponse
 
 
 class GetEventHandler:

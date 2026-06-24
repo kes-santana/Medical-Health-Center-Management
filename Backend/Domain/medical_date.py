@@ -1,9 +1,9 @@
 import datetime
 
-from Backend.Data_Access.employee_repository import EmployeeRepository
-from Backend.Data_Access.resource_repository import ResourceRepository
-from Backend.Domain.resources import Resource
-from Backend.Domain.employee import Employee
+from backend.data_access.employee_repository import EmployeeRepository
+from backend.data_access.resource_repository import ResourceRepository
+from backend.domain.resources import Resource
+from backend.domain.employee import Employee
 
 
 

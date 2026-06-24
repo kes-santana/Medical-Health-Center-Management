@@ -1,7 +1,7 @@
 import streamlit as st
 
-from Frontend.app import USER, ROL, ID
-from Frontend.bridge import cambiar_nombre_de_usuario, cambiar_password_de_usuario
+from frontend.app import USER, ROL, ID
+from frontend.bridge import cambiar_nombre_de_usuario, cambiar_password_de_usuario
 
 st.header("Gestion de Cuenta")
 

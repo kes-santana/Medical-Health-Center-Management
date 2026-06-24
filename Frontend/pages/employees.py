@@ -1,6 +1,6 @@
 import streamlit as st
 
-from Frontend.bridge import asignar_vacaciones, crear_empleado, listar_empleados, obtener_empleado
+from frontend.bridge import asignar_vacaciones, crear_empleado, listar_empleados, obtener_empleado
 
 
 

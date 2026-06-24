@@ -1,7 +1,7 @@
 import datetime
 import streamlit as st
 
-from Frontend.bridge import employee_ranking, events_per_day, resource_per_month
+from frontend.bridge import employee_ranking, events_per_day, resource_per_month
 
 if "mostrar_graph_1" not in st.session_state:
     st.session_state.mostrar_graph_1 = False

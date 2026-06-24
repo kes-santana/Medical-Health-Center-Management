@@ -1,13 +1,12 @@
 import json
 import os
 
-from Backend.Data_Access.date_manager import DateManager
-from Backend.Data_Access.employee_repository import EmployeeRepository
-from Backend.Data_Access.resource_repository import ResourceRepository
-from Backend.Data_Access.users_repository import UsersRepository
+from backend.data_access.date_manager import DateManager
+from backend.data_access.employee_repository import EmployeeRepository
+from backend.data_access.resource_repository import ResourceRepository
+from backend.data_access.users_repository import UsersRepository
 from constants import *
 
-# TODO: arreglar rutas y revisar metodos
 # PATH = "..\DataBase"
 
 class Context:
@@ -34,7 +33,7 @@ class Context:
         # Carpeta actual donde está este archivo (Context.py)
         base_dir = os.path.dirname(__file__) 
         # Subir un nivel y entrar a DataBase
-        db_path = os.path.join(base_dir, "..", "DataBase") 
+        db_path = os.path.join(base_dir, "..", "data_base") 
         # Normalizar la ruta (quita .. y convierte a absoluta)
         db_path = os.path.abspath(db_path) 
 

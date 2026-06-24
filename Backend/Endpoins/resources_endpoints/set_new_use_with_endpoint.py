@@ -1,6 +1,6 @@
 
-from Backend.Data_Access.context import Context
-from Backend.Domain.resources import Resource
+from backend.data_access.context import Context
+from backend.domain.resources import Resource
 
 
 

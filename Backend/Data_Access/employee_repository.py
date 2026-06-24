@@ -1,4 +1,4 @@
-from Backend.Domain.employee import Employee
+from backend.domain.employee import Employee
 
 class EmployeeRepository:
     def __init__(self, employee_list: dict[str, Employee]):

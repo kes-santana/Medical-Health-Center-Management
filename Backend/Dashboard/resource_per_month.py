@@ -2,8 +2,8 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import plotly.graph_objects as go
 
-from Backend.Data_Access.context import Context
-from Backend.Domain.medical_date import MedicalDate
+from backend.data_access.context import Context
+from backend.domain.medical_date import MedicalDate
 
 
 class ResourcePerMonthGraphix:

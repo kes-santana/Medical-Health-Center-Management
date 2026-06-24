@@ -1,45 +1,45 @@
 
 import datetime
 
-from Backend.Dashboard.employee_rank import EmployeeRankingGraphix
-from Backend.Dashboard.events_per_day import EventPerDayGraphix
-from Backend.Dashboard.month_dates import MonthDates
+from backend.dashboard.employee_rank import EmployeeRankingGraphix
+from backend.dashboard.events_per_day import EventPerDayGraphix
+from backend.dashboard.month_dates import MonthDates
 
-from Backend.Dashboard.resource_per_month import ResourcePerMonthGraphix
-from Backend.Domain.resources import Resource
-from Backend.Endpoins.user_endpoints.login_endpoint import LoginEndpoint
-from Backend.Endpoins.user_endpoints.create_user_endpoint import CreateUserEndpoint
-from Backend.Endpoins.user_endpoints.change_user_name_endpoint import ChangeUserNameEndpoint
-from Backend.Endpoins.user_endpoints.change_user_password_endpoint import ChangeUserPasswordEndpoint
-from Backend.Endpoins.user_endpoints.change_user_rol_endpoint import ChangeUserRolEndpoint
+from backend.dashboard.resource_per_month import ResourcePerMonthGraphix
+from backend.domain.resources import Resource
+from backend.endpoins.user_endpoints.login_endpoint import LoginEndpoint
+from backend.endpoins.user_endpoints.create_user_endpoint import CreateUserEndpoint
+from backend.endpoins.user_endpoints.change_user_name_endpoint import ChangeUserNameEndpoint
+from backend.endpoins.user_endpoints.change_user_password_endpoint import ChangeUserPasswordEndpoint
+from backend.endpoins.user_endpoints.change_user_rol_endpoint import ChangeUserRolEndpoint
 
-from Backend.Endpoins.events_endpoints.create_event_endpoint import CreateEventEndpoint
-from Backend.Features.Events.Get.get_event_response import GetEventResponse
-from Backend.Features.Events.Post.create_event_response import CreateEventResponse
-from Backend.Features.dtos.eventdto import EventDto
-from Backend.Endpoins.events_endpoints.get_event_endpoint import GetEventEndpoint
-from Backend.Endpoins.events_endpoints.list_events_endpoint import ListEventEndpoint
-from Backend.Endpoins.events_endpoints.change_event_state_endpoint import ChangeEventStateEndpiont
+from backend.endpoins.events_endpoints.create_event_endpoint import CreateEventEndpoint
+from backend.features.events.get.get_event_response import GetEventResponse
+from backend.features.events.post.create_event_response import CreateEventResponse
+from backend.features.dtos.eventdto import EventDto
+from backend.endpoins.events_endpoints.get_event_endpoint import GetEventEndpoint
+from backend.endpoins.events_endpoints.list_events_endpoint import ListEventEndpoint
+from backend.endpoins.events_endpoints.change_event_state_endpoint import ChangeEventStateEndpiont
 
-from Backend.Domain.employee import Employee
-from Backend.Endpoins.employees_endpoints.get_employee_endpoint import GetEmployeeEndpoint
-from Backend.Endpoins.employees_endpoints.on_vactions_verify_endpoint import VerifyVacations
-from Backend.Endpoins.employees_endpoints.create_employee_endoint import EmployeeCreatorEndpoint
-from Backend.Endpoins.employees_endpoints.list_employees_endpoint import ListEmployeesEndpoint
-from Backend.Endpoins.employees_endpoints.set_employee_vacations_endpoint import EmployeeVacationsSeterEndpoint
-from Backend.Features.dtos.employee_dto import EmployeeDto
+from backend.domain.employee import Employee
+from backend.endpoins.employees_endpoints.get_employee_endpoint import GetEmployeeEndpoint
+from backend.endpoins.employees_endpoints.on_vactions_verify_endpoint import VerifyVacations
+from backend.endpoins.employees_endpoints.create_employee_endoint import EmployeeCreatorEndpoint
+from backend.endpoins.employees_endpoints.list_employees_endpoint import ListEmployeesEndpoint
+from backend.endpoins.employees_endpoints.set_employee_vacations_endpoint import EmployeeVacationsSeterEndpoint
+from backend.features.dtos.employee_dto import EmployeeDto
 
-from Backend.Endpoins.resources_endpoints.get_resource_Endpoint import GetResourceEndpoint
-from Backend.Endpoins.resources_endpoints.create_resource_endpoint import ResourceCreatorEndpoint
-from Backend.Endpoins.resources_endpoints.list_resources_endpoint import ListResourcesEndpoint
-from Backend.Endpoins.resources_endpoints.remove_dont_use_with_endpoint import RemoveDontUseWithEndpoint
-from Backend.Endpoins.resources_endpoints.remove_use_with_endpoint import RemoveUseWithEndpoint
-from Backend.Endpoins.resources_endpoints.set_new_dont_use_with_endpoint import SetNewDontUseWithEndpoint
-from Backend.Endpoins.resources_endpoints.set_new_use_with_endpoint import SetNewUseWithEndpoint
-from Backend.Endpoins.resources_endpoints.suply_storehouse_endpoint import SuplyStorehouseEndpoint
-from Backend.Features.dtos.resource_dto import ResourceDto
-from Backend.Endpoins.refresh_system_endpoint import RefreshSystemEndpoint
-from Frontend.front_utils import load_employees_names, load_resources_names, search_id_by_name
+from backend.endpoins.resources_endpoints.get_resource_Endpoint import GetResourceEndpoint
+from backend.endpoins.resources_endpoints.create_resource_endpoint import ResourceCreatorEndpoint
+from backend.endpoins.resources_endpoints.list_resources_endpoint import ListResourcesEndpoint
+from backend.endpoins.resources_endpoints.remove_dont_use_with_endpoint import RemoveDontUseWithEndpoint
+from backend.endpoins.resources_endpoints.remove_use_with_endpoint import RemoveUseWithEndpoint
+from backend.endpoins.resources_endpoints.set_new_dont_use_with_endpoint import SetNewDontUseWithEndpoint
+from backend.endpoins.resources_endpoints.set_new_use_with_endpoint import SetNewUseWithEndpoint
+from backend.endpoins.resources_endpoints.suply_storehouse_endpoint import SuplyStorehouseEndpoint
+from backend.features.dtos.resource_dto import ResourceDto
+from backend.endpoins.refresh_system_endpoint import RefreshSystemEndpoint
+from frontend.front_utils import load_employees_names, load_resources_names, search_id_by_name
 
 # Función que recibe los datos del formulario
 def verify_login(user_input, password_input) -> tuple[bool, str, str, str]:

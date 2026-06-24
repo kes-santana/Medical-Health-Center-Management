@@ -2,14 +2,14 @@
 
 import datetime
 
-from Backend.Data_Access.context import Context
-from Backend.Data_Access.date_manager import DateManager
-from Backend.Data_Access.resource_repository import ResourceRepository
-from Backend.Domain.medical_date import MedicalDate
-from Backend.Domain.resources import Resource
-from Backend.Domain.employee import Employee
-from Backend.Features.Events.Post.create_event_command import CreateEventCommand
-from Backend.Features.Events.Post.create_event_response import CreateEventResponse
+from backend.data_access.context import Context
+from backend.data_access.date_manager import DateManager
+from backend.data_access.resource_repository import ResourceRepository
+from backend.domain.medical_date import MedicalDate
+from backend.domain.resources import Resource
+from backend.domain.employee import Employee
+from backend.features.events.post.create_event_command import CreateEventCommand
+from backend.features.events.post.create_event_response import CreateEventResponse
 from constants import OPEN_HOUR, CLOSE_HOUR, MID_DAY
 
 
@@ -310,7 +310,7 @@ class CreateEventHandler:
         # Ordenar eventos por hora
         eventos.sort(key=lambda e: e.date_time)
         if eventos[0].date_time.time() > OPEN_HOUR:
-            new_date_time = datetime.datetime.combine(eventos[0].date_time, OPEN_HOUR)
+            new_date_time = datetime.datetime.combine(eventos[0].date_time.date(), OPEN_HOUR)
             end_new_date = new_date_time + datetime.timedelta(hours=eventos[0].duration.hour,
                                                         minutes=eventos[0].duration.minute)
             self.arreglar_solapamientos(0, new_date_time, end_new_date, eventos)

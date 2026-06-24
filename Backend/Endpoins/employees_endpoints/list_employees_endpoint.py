@@ -1,5 +1,5 @@
-from Backend.Data_Access.context import Context
-from Backend.Features.dtos.employee_dto import EmployeeDto
+from backend.data_access.context import Context
+from backend.features.dtos.employee_dto import EmployeeDto
 
 
 class ListEmployeesEndpoint:

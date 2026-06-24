@@ -1,9 +1,9 @@
 
 from datetime import datetime
 
-from Backend.Data_Access.context import Context
-from Backend.Data_Access.employee_repository import EmployeeRepository
-from Backend.Domain.employee import Employee
+from backend.data_access.context import Context
+from backend.data_access.employee_repository import EmployeeRepository
+from backend.domain.employee import Employee
 
 
 class EmployeeVacationsSeterEndpoint:

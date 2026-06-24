@@ -1,5 +1,5 @@
-from Backend.Data_Access.context import Context
-from Backend.Data_Access.resource_repository import ResourceRepository
+from backend.data_access.context import Context
+from backend.data_access.resource_repository import ResourceRepository
 
 
 class SuplyStorehouseEndpoint:

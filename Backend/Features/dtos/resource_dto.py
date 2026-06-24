@@ -1,4 +1,4 @@
-from Backend.Domain.resources import Resource
+from backend.domain.resources import Resource
 
 
 class ResourceDto:

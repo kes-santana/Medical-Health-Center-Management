@@ -1,4 +1,4 @@
-from Backend.Domain.medical_date import MedicalDate
+from backend.domain.medical_date import MedicalDate
 
 
 class EventDto():

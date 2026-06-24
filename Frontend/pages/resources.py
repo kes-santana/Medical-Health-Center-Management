@@ -1,7 +1,7 @@
 import streamlit as st
 
-from Frontend.bridge import agregar_no_uso, agregar_uso, crear_recurso, listar_recursos, obtener_recurso, remover_no_uso, remover_uso, surtir_alamcen
-from Frontend.front_utils import search_id_by_name
+from frontend.bridge import agregar_no_uso, agregar_uso, crear_recurso, listar_recursos, obtener_recurso, remover_no_uso, remover_uso, surtir_alamcen
+from frontend.front_utils import search_id_by_name
 
 if "remove_use_with" not in st.session_state:
     st.session_state.remove_use_with = False

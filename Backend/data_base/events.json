@@ -1,5 +1,5 @@
 [
-  38,
+  48,
   {
     "2026-02-03": {
       "1": [
@@ -209,7 +209,7 @@
           "is_urgency": false,
           "necesary_resources": [],
           "resources_count": [],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Ceguera"
         }
       ]
@@ -228,7 +228,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "tomografia"
         },
         {
@@ -243,7 +243,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Rayos x"
         },
         {
@@ -258,7 +258,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Rayos x otra vez"
         },
         {
@@ -275,7 +275,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Revision de cornea"
         },
         {
@@ -292,7 +292,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Revision de cornea"
         }
       ]
@@ -311,7 +311,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "cortada domestica"
         }
       ],
@@ -328,7 +328,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Fractura de brazo"
         }
       ]
@@ -351,7 +351,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor de garganta"
         }
       ]
@@ -372,7 +372,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor de estomago"
         }
       ]
@@ -393,7 +393,7 @@
             1,
             3
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor de cabeza"
         }
       ],
@@ -412,7 +412,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Problemas circulatorios"
         },
         {
@@ -431,7 +431,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Problemas cardiacos"
         },
         {
@@ -448,7 +448,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Fractura de brazo"
         },
         {
@@ -467,7 +467,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Perdida del conocimiento"
         },
         {
@@ -484,7 +484,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Deshidratacion"
         },
         {
@@ -499,7 +499,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Fiebre"
         },
         {
@@ -510,7 +510,7 @@
           "is_urgency": false,
           "necesary_resources": [],
           "resources_count": [],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Asma"
         },
         {
@@ -525,7 +525,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "estudios completos"
         },
         {
@@ -540,7 +540,7 @@
           "resources_count": [
             2
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "estudios completos"
         }
       ],
@@ -559,7 +559,7 @@
             1,
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Estudio Ocular"
         }
       ]
@@ -578,7 +578,7 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor de muela"
         },
         {
@@ -593,8 +593,114 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Dolor de apéndice"
+        }
+      ],
+      "5": [
+        {
+          "id": 38,
+          "date_time": "2026-02-11T09:00:00",
+          "owns_name": "Cesar",
+          "employee": 5,
+          "is_urgency": true,
+          "necesary_resources": [
+            6,
+            1,
+            2
+          ],
+          "resources_count": [
+            1,
+            1,
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "Ceguera"
+        }
+      ],
+      "6": [
+        {
+          "id": 39,
+          "date_time": "2026-02-11T09:25:00",
+          "owns_name": "Tomas",
+          "employee": 6,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            6
+          ],
+          "resources_count": [
+            1,
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "Dolor de garganta"
+        },
+        {
+          "id": 40,
+          "date_time": "2026-02-11T09:00:00",
+          "owns_name": "Héctor",
+          "employee": 6,
+          "is_urgency": true,
+          "necesary_resources": [
+            2,
+            7,
+            6
+          ],
+          "resources_count": [
+            1,
+            1,
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "Desnutrición"
+        },
+        {
+          "id": 42,
+          "date_time": "2026-02-11T09:50:00",
+          "owns_name": "Mario",
+          "employee": 6,
+          "is_urgency": false,
+          "necesary_resources": [
+            9
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "Dolor de cabeza"
+        },
+        {
+          "id": 43,
+          "date_time": "2026-02-11T10:15:00",
+          "owns_name": "Esteban",
+          "employee": 6,
+          "is_urgency": false,
+          "necesary_resources": [
+            9
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "Dolor de cabeza"
+        }
+      ],
+      "9": [
+        {
+          "id": 41,
+          "date_time": "2026-02-11T09:00:00",
+          "owns_name": "Christian",
+          "employee": 9,
+          "is_urgency": false,
+          "necesary_resources": [
+            2
+          ],
+          "resources_count": [
+            1
+          ],
+          "state": "finished",
+          "appointment_name": "Dolor abdominal"
         }
       ]
     },
@@ -612,8 +718,80 @@
           "resources_count": [
             1
           ],
-          "state": "active",
+          "state": "finished",
           "appointment_name": "Deshidratacion"
+        }
+      ]
+    },
+    "2026-02-13": {
+      "5": [
+        {
+          "id": 44,
+          "date_time": "2026-02-13T09:25:00",
+          "owns_name": "Katy",
+          "employee": 5,
+          "is_urgency": false,
+          "necesary_resources": [],
+          "resources_count": [],
+          "state": "finished",
+          "appointment_name": "Dolor de estomago"
+        },
+        {
+          "id": 45,
+          "date_time": "2026-02-13T09:00:00",
+          "owns_name": "Lale",
+          "employee": 5,
+          "is_urgency": true,
+          "necesary_resources": [],
+          "resources_count": [],
+          "state": "finished",
+          "appointment_name": "Dolor de estomago"
+        }
+      ]
+    },
+    "2026-06-25": {
+      "4": [
+        {
+          "id": 46,
+          "date_time": "2026-06-25T10:00:00",
+          "owns_name": "Maria",
+          "employee": 4,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            2,
+            4,
+            9
+          ],
+          "resources_count": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "state": "canceled",
+          "appointment_name": "Dolor de garganta"
+        },
+        {
+          "id": 47,
+          "date_time": "2026-06-25T10:00:00",
+          "owns_name": "Maria",
+          "employee": 4,
+          "is_urgency": false,
+          "necesary_resources": [
+            1,
+            2,
+            4,
+            9
+          ],
+          "resources_count": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "state": "active",
+          "appointment_name": "Dolor de garganta"
         }
       ]
     }

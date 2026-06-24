@@ -1,5 +1,5 @@
-from Backend.Data_Access.context import Context
-from Backend.Domain.employee import Employee
+from backend.data_access.context import Context
+from backend.domain.employee import Employee
 
 
 class EmployeeCreatorEndpoint:

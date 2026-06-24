@@ -1,6 +1,6 @@
-from Backend.Data_Access.context import Context
-from Backend.Domain.employee import Employee
-from Backend.Domain.user import User
+from backend.data_access.context import Context
+from backend.domain.employee import Employee
+from backend.domain.user import User
 
 
 class CreateUserEndpoint:

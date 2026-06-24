@@ -1,5 +1,5 @@
 
-from Backend.Domain.user import User
+from backend.domain.user import User
 
 
 class UsersRepository:

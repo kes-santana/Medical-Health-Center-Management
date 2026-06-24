@@ -1,6 +1,6 @@
 import plotly.express as px
 from datetime import datetime
-from Backend.Data_Access.context import Context
+from backend.data_access.context import Context
 
 class EventPerDayGraphix:
     def __init__(self, start_date: datetime.date, end_date: datetime.date, graph_type: str):

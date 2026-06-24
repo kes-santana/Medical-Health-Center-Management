@@ -1,11 +1,11 @@
 from datetime import datetime
 
 # Simular un enum
-EVENTS = "Events"
-EMPLOYEES = "Employees"
-EQUIPMENT = "Equipment"
-RESOURCES = "Resources"
-USERS = "Users"
+EVENTS = "events"
+EMPLOYEES = "employees"
+EQUIPMENT = "equipment"
+RESOURCES = "resources"
+USERS = "users"
 
 OPEN_HOUR = datetime.strptime("09:00", "%H:%M").time()
 CLOSE_HOUR = datetime.strptime("18:00", "%H:%M").time()

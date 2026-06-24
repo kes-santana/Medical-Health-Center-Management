@@ -11,14 +11,14 @@
     "user_name": "Miguel",
     "employee_key": "1 Miguel",
     "password": "0123456789",
-    "rol": "doctor"
+    "rol": "admin"
   },
   "Kevin": {
     "id": 2,
     "user_name": "Kevin",
     "employee_key": "2 Kevin",
     "password": "soy_kev",
-    "rol": "doctor"
+    "rol": "admin"
   },
   "nuevo_empleado_marisela": {
     "id": 3,
@@ -66,6 +66,13 @@
     "id": 9,
     "user_name": "nuevo_empleado_mark",
     "employee_key": "9 Mark",
+    "password": "0123456789",
+    "rol": "doctor"
+  },
+  "nuevo_empleado_amanda": {
+    "id": 10,
+    "user_name": "nuevo_empleado_amanda",
+    "employee_key": "10 Amanda",
     "password": "0123456789",
     "rol": "doctor"
   }

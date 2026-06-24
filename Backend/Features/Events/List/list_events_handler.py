@@ -1,6 +1,6 @@
-from Backend.Data_Access.context import Context
-from Backend.Features.Events.List.list_events_command import ListEventsCommand
-from Backend.Features.dtos.eventdto import EventDto
+from backend.data_access.context import Context
+from backend.features.events.list.list_events_command import ListEventsCommand
+from backend.features.dtos.eventdto import EventDto
 
 
 class ListEventCommandHandler:

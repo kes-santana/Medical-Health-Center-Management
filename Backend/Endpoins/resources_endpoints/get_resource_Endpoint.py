@@ -1,5 +1,5 @@
-from Backend.Data_Access.context import Context
-from Backend.Features.dtos.resource_dto import ResourceDto
+from backend.data_access.context import Context
+from backend.features.dtos.resource_dto import ResourceDto
 
 
 class GetResourceEndpoint:

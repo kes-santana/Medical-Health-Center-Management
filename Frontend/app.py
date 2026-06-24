@@ -5,14 +5,14 @@
 
 import sys
 import os
-# Obtiene la ruta del proyecto (un nivel arriba de Frontend)
+# Obtiene la ruta del proyecto (un nivel arriba de frontend)
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 import streamlit as st
 import calendar
 import datetime
-from Frontend.front_utils import load_employees_names, load_resources_names
-from Frontend.bridge import *
+from frontend.front_utils import load_employees_names, load_resources_names
+from frontend.bridge import *
 
 try:
     if not "all_rec" in st.session_state:
@@ -41,8 +41,8 @@ try:
 
 
     st.set_page_config(page_title="Medical Health Center Management", 
-                    page_icon="Frontend/assets/icon.jpg", layout="centered")
-    st.logo("Frontend/assets/icon.jpg")
+                    page_icon="frontend/assets/icon.jpg", layout="centered")
+    st.logo("frontend/assets/icon.jpg")
     st.markdown(
         "<h1 style= 'text-align: center; '>Welcome to Medical Health Center Management</h1>",
         unsafe_allow_html=True,

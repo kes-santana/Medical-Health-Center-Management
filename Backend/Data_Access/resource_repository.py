@@ -1,5 +1,5 @@
 
-from Backend.Domain.resources import Resource
+from backend.domain.resources import Resource
 
 class ResourceRepository:
     def __init__(self, resource_list: dict[str, Resource]={}):
