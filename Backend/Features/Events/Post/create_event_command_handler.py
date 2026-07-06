@@ -194,7 +194,8 @@ class CreateEventHandler:
         
         else:
             print([str(d) for d in manager.list_of_events.keys()])
-            appointment_time: datetime.time = self.proces_urgency(manager.list_of_events[appointment_date][str(employee.id)])
+            appointment_time: datetime.time = self.proces_urgency(
+                self.doctor_is_working(manager, appointment_date, employee))
 
         return datetime.datetime.combine(appointment_date, appointment_time)
     

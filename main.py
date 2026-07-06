@@ -55,14 +55,15 @@ subprocess.run("venv\\Scripts\\activate && streamlit run frontend\\app.py", shel
 # --------------------------------------------------
 
 # from datetime import datetime
-# from Backend.Endpoins.employees_endpoints.create_employee_endoint import EmployeeCreatorEndpoint
-# from Backend.Endpoins.events_endpoints.create_event_endpoint import CreateEventEndpoint
+# from backend.endpoins.employees_endpoints.create_employee_endoint import EmployeeCreatorEndpoint
+# from backend.endpoins.events_endpoints.create_event_endpoint import CreateEventEndpoint
 # from backend.features.Events.Get.get_event_command import GetEventCommand
 # from backend.features.Events.Get.get_event_command_handler import GetEventHandler
 # from backend.features.Events.List.list_events_command import ListEventsCommand
 # from backend.features.Events.List.list_events_handler import ListEventCommandHandler
 # endpoint = CreateEventEndpoint()
-# endpoint.excecute()
+# endpoint.excecute(datetime(2026, 7, 15).date(), "10:00", "Alex", 1, True, [], [], False, "Dolor de cabeza", False)
+
 # command = GetEventCommand(1)
 # handler = GetEventHandler(command)
 # response = handler.excecute()
